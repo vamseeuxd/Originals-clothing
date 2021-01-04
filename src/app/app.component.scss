@@ -1,0 +1,10 @@
+:host {
+  .route-container {
+    display: block;
+    width: 100vw;
+    margin-top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    padding-bottom: 15px;
+  }
+}

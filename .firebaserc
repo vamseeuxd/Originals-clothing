@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "inventory-management-d8c7d": {
+      "hosting": {
+        "originals-clothing": [
+          "inventory-management-d8c7d"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "originals-clothing"
+  }
+}

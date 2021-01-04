@@ -1,0 +1,4 @@
+
+<h4 class="mt-5 mb-3">My Peer Id : {{myPeerId}}</h4>
+<input type="text" class="form-control mb-3" (keyup.enter)="connectPeer()" [(ngModel)]="otherPeerId">
+<textarea class="form-control" (keyup.enter)="sentTextMessage()" [(ngModel)]="chatMessage"></textarea>

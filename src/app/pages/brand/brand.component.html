@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <ul class="list-group offset-md-4 col-md-4 p-0 mt-3">
+    <li class="list-group-item">
+      <ul class="list-group offset-md-4 col-md-4 p-0">
+        <li class="list-group-item">
+          <div class="form-group">
+            <label>New Brand Name</label>
+            <input type="text" (keyup.enter)="addNewBrandToList(newBrandName)" [(ngModel)]="newBrandName"
+                   class="form-control">
+          </div>
+          <div class="text-right">
+            <button class="btn btn-primary" [disabled]="newBrandName.length < 3">Add</button>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <ng-container *ngIf="brands$ | async as brands">
+      <li *ngFor="let brand of brands" class="list-group-item">{{brand.name}}</li>
+    </ng-container>
+  </ul>
+  <pre *ngIf="brands$ | async as brands">
+    {{brands|json}}
+  </pre>
+</div>
