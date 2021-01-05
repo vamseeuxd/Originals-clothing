@@ -136,5 +136,8 @@
       }
     }
   },
-  "defaultProject": "originals-clothing"
+  "defaultProject": "originals-clothing",
+  "cli": {
+    "analytics": false
+  }
 }
