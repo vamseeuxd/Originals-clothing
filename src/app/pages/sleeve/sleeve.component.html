@@ -1,1 +1,51 @@
-<p>sleeve works!</p>
+<div class="container-fluid">
+    <h4 class="text-muted mt-4 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 pl-0">Manage {{moduleName}}</h4>
+    <ul class="list-group mt-4 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+      <li class="list-group-item">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="form-group">
+              <label>New Sleeve Name</label>
+              <input (keyup.enter)="addSleeve()" autofocus
+                     [(ngModel)]="newName" type="text" class="form-control"> 
+            </div>
+            <div class="text-right">
+              <button (click)="addSleeve()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
+                Sleeve
+              </button>
+            </div>
+          </li>
+        </ul> 
+      </li>
+      <ng-container *ngIf="service.getSleeves() | async as sleeves">
+        <li *ngFor="let sleeve of sleeves" class="list-group-item d-flex justify-content-between align-items-center">
+          <ng-container *ngIf="(itemToEdit && itemToEdit.id == sleeve.id)">
+            <div class="w-100">
+              <div class="form-group">
+                <label>Sleeve Name to Update</label>
+                <input (keyup.enter)="addSleeve()" autofocus
+                       #sleeveToUpdateInput
+                       [ngModel]="sleeve.name" type="text" class="form-control">
+              </div>
+              <div class="text-right">
+                <button (click)="itemToEdit = null" class="btn btn-dark mr-3 btn-sm"> <i class="fa fa-times mr-1"></i>Cancel</button>
+                <button (click)="updateSleeve(sleeveToUpdateInput)" [disabled]="sleeveToUpdateInput.value.trim().length < 3" class="btn btn-primary btn-sm"> <i class="fa fa-save mr-1"></i>Save</button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!itemToEdit || (itemToEdit && itemToEdit.id != sleeve.id)">
+            {{sleeve.name}}
+            <div>
+              <button (click)="deleteSleeve(sleeve)" type="button" class="btn btn-danger btn-sm mr-2">
+                <i class="fa fa-trash mr-1"></i>Delete
+              </button>
+              <button (click)="itemToEdit = sleeve" type="button" class="btn btn-warning btn-sm">
+                <i class="fa fa-edit mr-1"></i>Edit
+              </button>
+            </div>
+          </ng-container>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  
