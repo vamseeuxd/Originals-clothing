@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {BusyIndicatorService} from './components/busy-indicator/busy-indicator.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'originals-clothing';
+  constructor(
+    public router: Router,
+    public busyIndicator: BusyIndicatorService
+  ) {
+  }
 }
 
 

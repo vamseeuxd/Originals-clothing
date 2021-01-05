@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {BrandService, IBrand} from './service/brand.service';
+import {ToastrService} from 'ngx-toastr';
 
 export interface BrandInterface {
   name: string,
@@ -17,30 +16,50 @@ export interface BrandInterface {
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.scss']
 })
-export class BrandComponent implements OnInit {
-  newBrandName = '';
+export class BrandComponent {
+  moduleName = 'Brand';
+  newName = '';
+  itemToEdit: IBrand = null;
 
-  private brandCollection: AngularFirestoreCollection<BrandInterface>;
-  brands$: Observable<BrandInterface[]>;
-
-  constructor(private readonly afs: AngularFirestore) {
-    this.brandCollection = afs.collection<BrandInterface>('brand');
-    this.brands$ = this.brandCollection.stateChanges(['added']).pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as BrandInterface;
-        const id = a.payload.doc.id;
-        return {id, ...data};
-      }))
-    );
+  constructor(
+    public service: BrandService,
+    private toastr: ToastrService,
+  ) {
   }
 
-  ngOnInit(): void {
+  addBrand() {
+    if (this.newName.trim().length >= 3) {
+      this.service.addBrand({name: this.newName}).then(value => {
+        this.newName = '';
+        this.toastr.success(`New ${this.moduleName} Added Successfully`, 'Added Successfully');
+      }, reason => {
+        this.toastr.error(`Error while adding New ${this.moduleName}, Please try again`, `Error while adding Brand ${this.moduleName}`);
+      })
+    }
   }
 
-  addNewBrandToList(name: string) {
-    if (name.trim().length > 2) {
-      this.brandCollection.add({name, createdOn: {seconds: 0, nanoseconds: 0}, deleted: false});
-      this.newBrandName = '';
+  deleteBrand(brand: IBrand) {
+    const isConfirmed = confirm('Are you sure do you want to delete Brand?');
+    if (isConfirmed) {
+      this.service.deleteBrand(brand).then(value => {
+        this.newName = '';
+        this.toastr.success('New Brand deleted Successfully', 'Delete Successfully');
+      }, reason => {
+        this.toastr.error('Error while deleting New Brand, Please try again', 'Error while deleting Brand');
+      })
+    }
+  }
+
+  updateBrand(brandToUpdateInput: HTMLInputElement) {
+    const isConfirmed = confirm('Are you sure do you want to save Changes?');
+    if (isConfirmed) {
+      this.service.updateBrand({name: brandToUpdateInput.value, id: this.itemToEdit.id}).then(value => {
+        this.newName = '';
+        this.toastr.success('New Brand updated Successfully', 'Update Successfully');
+        this.itemToEdit = null;
+      }, reason => {
+        this.toastr.error('Error while updating New Brand, Please try again', 'Error while updating Brand');
+      })
     }
   }
 }

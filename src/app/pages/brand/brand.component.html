@@ -1,24 +1,50 @@
 <div class="container-fluid">
-  <ul class="list-group offset-md-4 col-md-4 p-0 mt-3">
+  <h4 class="text-muted mt-4 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 pl-0">Manage {{moduleName}}</h4>
+  <ul class="list-group mt-4 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
     <li class="list-group-item">
-      <ul class="list-group offset-md-4 col-md-4 p-0">
+      <ul class="list-group">
         <li class="list-group-item">
           <div class="form-group">
             <label>New Brand Name</label>
-            <input type="text" (keyup.enter)="addNewBrandToList(newBrandName)" [(ngModel)]="newBrandName"
-                   class="form-control">
+            <input (keyup.enter)="addBrand()" autofocus
+                   [(ngModel)]="newName" type="text" class="form-control">
           </div>
           <div class="text-right">
-            <button class="btn btn-primary" [disabled]="newBrandName.length < 3">Add</button>
+            <button (click)="addBrand()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
+              Brand
+            </button>
           </div>
         </li>
       </ul>
     </li>
-    <ng-container *ngIf="brands$ | async as brands">
-      <li *ngFor="let brand of brands" class="list-group-item">{{brand.name}}</li>
+    <ng-container *ngIf="service.getBrands() | async as brands">
+      <li *ngFor="let brand of brands" class="list-group-item d-flex justify-content-between align-items-center">
+        <ng-container *ngIf="(itemToEdit && itemToEdit.id == brand.id)">
+          <div class="w-100">
+            <div class="form-group">
+              <label>Brand Name to Update</label>
+              <input (keyup.enter)="addBrand()" autofocus
+                     #brandToUpdateInput
+                     [ngModel]="brand.name" type="text" class="form-control">
+            </div>
+            <div class="text-right">
+              <button (click)="itemToEdit = null" class="btn btn-dark mr-3 btn-sm"> <i class="fa fa-times mr-1"></i>Cancel</button>
+              <button (click)="updateBrand(brandToUpdateInput)" [disabled]="brandToUpdateInput.value.trim().length < 3" class="btn btn-primary btn-sm"> <i class="fa fa-save mr-1"></i>Save</button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!itemToEdit || (itemToEdit && itemToEdit.id != brand.id)">
+          {{brand.name}}
+          <div>
+            <button (click)="deleteBrand(brand)" type="button" class="btn btn-danger btn-sm mr-2">
+              <i class="fa fa-trash mr-1"></i>Delete
+            </button>
+            <button (click)="itemToEdit = brand" type="button" class="btn btn-warning btn-sm">
+              <i class="fa fa-edit mr-1"></i>Edit
+            </button>
+          </div>
+        </ng-container>
+      </li>
     </ng-container>
   </ul>
-  <pre *ngIf="brands$ | async as brands">
-    {{brands|json}}
-  </pre>
 </div>

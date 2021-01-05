@@ -1,28 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-originals-clothing fixed-top shadow-sm">
   <a class="navbar-brand" href="#">originals-clothing</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" [class.collapsed]="!isMenuOpened" (click)="isMenuOpened = !isMenuOpened" type="button">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" [class.collapse]="!isMenuOpened" [class.show]="isMenuOpened" id="navbarNav">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="brand"><a class="nav-link">Brand</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="category"><a class="nav-link">Category</a>
-      </li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="collar"><a class="nav-link">Collar</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="colors"><a class="nav-link">Colors</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="fabric-family"><a class="nav-link">Fabric
-        Family</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="fit"><a class="nav-link">Fit</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="pattern"><a class="nav-link">Pattern</a>
-      </li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="size"><a class="nav-link">Size</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="sleeve"><a class="nav-link">Sleeve</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="type"><a class="nav-link">Type</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="waist-rise"><a class="nav-link">Waist
-        Rise</a></li>
-      <li class="nav-item button-mode" routerLinkActive="active" routerLink="gender"><a class="nav-link">Gender</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="brand"><a class="nav-link">Brand</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="category"><a class="nav-link">Category</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="collar"><a class="nav-link">Collar</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="colors"><a class="nav-link">Colors</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="fabric-family"><a class="nav-link">Fabric Family</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="fit"><a class="nav-link">Fit</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="pattern"><a class="nav-link">Pattern</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="size"><a class="nav-link">Size</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="sleeve"><a class="nav-link">Sleeve</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="type"><a class="nav-link">Type</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="waist-rise"><a class="nav-link">Waist Rise</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="gender"><a class="nav-link">Gender</a></li>
+      <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="users"><a class="nav-link">users</a></li>
     </ul>
   </div>
 </nav>
+

@@ -27,6 +27,8 @@ import {TypeComponent} from './pages/type/type.component';
 import {WaistRiseComponent} from './pages/waist-rise/waist-rise.component';
 import {GenderComponent} from './pages/gender/gender.component';
 import {FormsModule} from '@angular/forms';
+import {UsersComponent} from './pages/users/users.component';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import {FormsModule} from '@angular/forms';
     TypeComponent,
     WaistRiseComponent,
     GenderComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import {FormsModule} from '@angular/forms';
     BrowserAnimationsModule,
     WebRtcModule.forRoot(),
     FormsModule,
+    ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],

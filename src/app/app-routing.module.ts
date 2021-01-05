@@ -12,6 +12,7 @@ import {SleeveComponent} from './pages/sleeve/sleeve.component';
 import {TypeComponent} from './pages/type/type.component';
 import {WaistRiseComponent} from './pages/waist-rise/waist-rise.component';
 import {GenderComponent} from './pages/gender/gender.component';
+import {UsersComponent} from './pages/users/users.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'brand', pathMatch: 'full'},
@@ -26,7 +27,8 @@ const routes: Routes = [
   {path: 'sleeve', component: SleeveComponent},
   {path: 'type', component: TypeComponent},
   {path: 'waist-rise', component: WaistRiseComponent},
-  {path: 'gender', component: GenderComponent}
+  {path: 'gender', component: GenderComponent},
+  {path: 'users', component: UsersComponent},
 ];
 
 @NgModule({
