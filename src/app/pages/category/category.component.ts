@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryService, ICategory} from './service/category.service';
 import {ToastrService} from 'ngx-toastr';
-import {CategoryService, ICategory} from "../Category/service/Category.service";
+
 export interface CategoryInterface {
   name: string,
   deleted: boolean;
@@ -10,7 +10,6 @@ export interface CategoryInterface {
     "nanoseconds": number
   }
 }
-
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -38,10 +37,10 @@ export class CategoryComponent {
     }
   }
 
-  deleteCategory(Category: ICategory) {
+  deleteCategory(category: ICategory) {
     const isConfirmed = confirm('Are you sure do you want to delete Category?');
     if (isConfirmed) {
-      this.service.deleteCategory(Category).then(value => {
+      this.service.deleteCategory(category).then(value => {
         this.newName = '';
         this.toastr.success('New Category deleted Successfully', 'Delete Successfully');
       }, reason => {
@@ -50,10 +49,10 @@ export class CategoryComponent {
     }
   }
 
-  updateCategory(CategoryToUpdateInput: HTMLInputElement) {
+  updateCategory(categoryToUpdateInput: HTMLInputElement) {
     const isConfirmed = confirm('Are you sure do you want to save Changes?');
     if (isConfirmed) {
-      this.service.updateCategory({name: CategoryToUpdateInput.value, id: this.itemToEdit.id}).then(value => {
+      this.service.updateCategory({name: categoryToUpdateInput.value, id: this.itemToEdit.id}).then(value => {
         this.newName = '';
         this.toastr.success('New Category updated Successfully', 'Update Successfully');
         this.itemToEdit = null;
@@ -62,4 +61,5 @@ export class CategoryComponent {
       })
     }
   }
+
 }

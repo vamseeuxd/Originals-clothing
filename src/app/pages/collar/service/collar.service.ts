@@ -8,7 +8,7 @@ import {UsersService} from '../../users/service/users.service'
 import {BusyIndicatorService} from '../../../components/busy-indicator/busy-indicator.service';
 import firebase from 'firebase';
 
-export interface ICategory {
+export interface ICollar {
   name: string
   id?: string
   deleted?: boolean
@@ -21,9 +21,9 @@ export interface ICategory {
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryService {
-  private categorysAction: AngularFirestoreCollection<ICategory>
-  readonly categorys$: Observable<ICategory[]>
+export class CollarService {
+  private collarsAction: AngularFirestoreCollection<ICollar>
+  readonly collars$: Observable<ICollar[]>
   private activeUser: string
 
   constructor(
@@ -31,9 +31,9 @@ export class CategoryService {
     private usersService: UsersService,
     public busyIndicator: BusyIndicatorService
   ) {
-    this.categorysAction = firestore.collection<ICategory>('categorys')
-    this.categorys$ = firestore
-      .collection<ICategory>('categorys', (ref) => {
+    this.collarsAction = firestore.collection<ICollar>('collars')
+    this.collars$ = firestore
+      .collection<ICollar>('collars', (ref) => {
         return ref.where('deleted', '==', false).orderBy('createdOn')
       })
       .valueChanges()
@@ -42,12 +42,12 @@ export class CategoryService {
     })
   }
 
-  addCategory(category: ICategory): Promise<any> {
+  addCollar(collar: ICollar): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (category.name.trim().length > 0) {
+      if (collar.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.categorysAction.ref.doc()
-        const name = category.name.trim()
+        const docRef = this.collarsAction.ref.doc()
+        const name = collar.name.trim()
         const id = docRef.id
         const deleted = false
         const createdOn = this.getServerTime()
@@ -74,12 +74,12 @@ export class CategoryService {
     })
   }
 
-  updateCategory(category: ICategory): Promise<any> {
+  updateCollar(collar: ICollar): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (category.name.trim().length > 0) {
+      if (collar.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.categorysAction.doc(category.id).ref
-        const name = category.name.trim()
+        const docRef = this.collarsAction.doc(collar.id).ref
+        const name = collar.name.trim()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
         try {
@@ -94,11 +94,11 @@ export class CategoryService {
     })
   }
 
-  deleteCategory(category: ICategory): Promise<any> {
+  deleteCollar(collar: ICollar): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const busyIndicatorId = this.busyIndicator.show()
       try {
-        const docRef = await this.categorysAction.doc(category.id)
+        const docRef = await this.collarsAction.doc(collar.id)
         const doc = await docRef.get().toPromise()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -117,8 +117,8 @@ export class CategoryService {
     })
   }
 
-  getCategorys(): Observable<ICategory[]> {
-    return this.categorys$
+  getCollars(): Observable<ICollar[]> {
+    return this.collars$
   }
 
   getServerTime(): any {

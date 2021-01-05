@@ -8,7 +8,7 @@ import {UsersService} from '../../users/service/users.service'
 import {BusyIndicatorService} from '../../../components/busy-indicator/busy-indicator.service';
 import firebase from 'firebase';
 
-export interface ICategory {
+export interface IColors {
   name: string
   id?: string
   deleted?: boolean
@@ -21,9 +21,9 @@ export interface ICategory {
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryService {
-  private categorysAction: AngularFirestoreCollection<ICategory>
-  readonly categorys$: Observable<ICategory[]>
+export class ColorsService {
+  private colorssAction: AngularFirestoreCollection<IColors>
+  readonly colorss$: Observable<IColors[]>
   private activeUser: string
 
   constructor(
@@ -31,9 +31,9 @@ export class CategoryService {
     private usersService: UsersService,
     public busyIndicator: BusyIndicatorService
   ) {
-    this.categorysAction = firestore.collection<ICategory>('categorys')
-    this.categorys$ = firestore
-      .collection<ICategory>('categorys', (ref) => {
+    this.colorssAction = firestore.collection<IColors>('colorss')
+    this.colorss$ = firestore
+      .collection<IColors>('colorss', (ref) => {
         return ref.where('deleted', '==', false).orderBy('createdOn')
       })
       .valueChanges()
@@ -42,12 +42,12 @@ export class CategoryService {
     })
   }
 
-  addCategory(category: ICategory): Promise<any> {
+  addColors(colors: IColors): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (category.name.trim().length > 0) {
+      if (colors.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.categorysAction.ref.doc()
-        const name = category.name.trim()
+        const docRef = this.colorssAction.ref.doc()
+        const name = colors.name.trim()
         const id = docRef.id
         const deleted = false
         const createdOn = this.getServerTime()
@@ -74,12 +74,12 @@ export class CategoryService {
     })
   }
 
-  updateCategory(category: ICategory): Promise<any> {
+  updateColors(colors: IColors): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (category.name.trim().length > 0) {
+      if (colors.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.categorysAction.doc(category.id).ref
-        const name = category.name.trim()
+        const docRef = this.colorssAction.doc(colors.id).ref
+        const name = colors.name.trim()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
         try {
@@ -94,11 +94,11 @@ export class CategoryService {
     })
   }
 
-  deleteCategory(category: ICategory): Promise<any> {
+  deleteColors(colors: IColors): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const busyIndicatorId = this.busyIndicator.show()
       try {
-        const docRef = await this.categorysAction.doc(category.id)
+        const docRef = await this.colorssAction.doc(colors.id)
         const doc = await docRef.get().toPromise()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -117,8 +117,8 @@ export class CategoryService {
     })
   }
 
-  getCategorys(): Observable<ICategory[]> {
-    return this.categorys$
+  getColorss(): Observable<IColors[]> {
+    return this.colorss$
   }
 
   getServerTime(): any {

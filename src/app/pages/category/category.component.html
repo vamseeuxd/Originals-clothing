@@ -7,7 +7,7 @@
           <div class="form-group">
             <label>New Category Name</label>
             <input (keyup.enter)="addCategory()" autofocus
-                   [(ngModel)]="newName" type="text" class="form-control">
+                   [(ngModel)]="newName" type="text" class="form-control"> 
           </div>
           <div class="text-right">
             <button (click)="addCategory()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
@@ -17,29 +17,29 @@
         </li>
       </ul>
     </li>
-    <ng-container *ngIf="service.getCategorys() | async as Categorys">
-      <li *ngFor="let Category of Categorys" class="list-group-item d-flex justify-content-between align-items-center">
-        <ng-container *ngIf="(itemToEdit && itemToEdit.id == Category.id)">
+    <ng-container *ngIf="service.getCategorys() | async as categorys">
+      <li *ngFor="let category of categorys" class="list-group-item d-flex justify-content-between align-items-center">
+        <ng-container *ngIf="(itemToEdit && itemToEdit.id == category.id)">
           <div class="w-100">
             <div class="form-group">
               <label>Category Name to Update</label>
               <input (keyup.enter)="addCategory()" autofocus
-                     #CategoryToUpdateInput
-                     [ngModel]="Category.name" type="text" class="form-control">
+                     #categoryToUpdateInput
+                     [ngModel]="category.name" type="text" class="form-control">
             </div>
             <div class="text-right">
               <button (click)="itemToEdit = null" class="btn btn-dark mr-3 btn-sm"> <i class="fa fa-times mr-1"></i>Cancel</button>
-              <button (click)="updateCategory(CategoryToUpdateInput)" [disabled]="CategoryToUpdateInput.value.trim().length < 3" class="btn btn-primary btn-sm"> <i class="fa fa-save mr-1"></i>Save</button>
+              <button (click)="updateCategory(categoryToUpdateInput)" [disabled]="categoryToUpdateInput.value.trim().length < 3" class="btn btn-primary btn-sm"> <i class="fa fa-save mr-1"></i>Save</button>
             </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="!itemToEdit || (itemToEdit && itemToEdit.id != Category.id)">
-          {{Category.name}}
+        <ng-container *ngIf="!itemToEdit || (itemToEdit && itemToEdit.id != category.id)">
+          {{category.name}}
           <div>
-            <button (click)="deleteCategory(Category)" type="button" class="btn btn-danger btn-sm mr-2">
+            <button (click)="deleteCategory(category)" type="button" class="btn btn-danger btn-sm mr-2">
               <i class="fa fa-trash mr-1"></i>Delete
             </button>
-            <button (click)="itemToEdit = Category" type="button" class="btn btn-warning btn-sm">
+            <button (click)="itemToEdit = category" type="button" class="btn btn-warning btn-sm">
               <i class="fa fa-edit mr-1"></i>Edit
             </button>
           </div>
