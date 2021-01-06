@@ -5,41 +5,41 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="form-group">
-              <label>New Waistrise Name</label>
-              <input (keyup.enter)="addWaistrise()" autofocus
-                     [(ngModel)]="newName" type="text" class="form-control"> 
+              <label>New Waist Rise</label>
+              <input (keyup.enter)="addWaistRise()" autofocus
+                     [(ngModel)]="newName" type="text" class="form-control">
             </div>
             <div class="text-right">
-              <button (click)="addWaistrise()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
-                Waistrise
+              <button (click)="addWaistRise()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
+                WaistRise
               </button>
             </div>
           </li>
-        </ul> 
+        </ul>
       </li>
-      <ng-container *ngIf="service.getWaistrises() | async as waistrises">
-        <li *ngFor="let waistrise of waistrises" class="list-group-item d-flex justify-content-between align-items-center">
-          <ng-container *ngIf="(itemToEdit && itemToEdit.id == waistrise.id)">
+      <ng-container *ngIf="service.getWaistRises() | async as waistRises">
+        <li *ngFor="let waistRise of waistRises" class="list-group-item d-flex justify-content-between align-items-center">
+          <ng-container *ngIf="(itemToEdit && itemToEdit.id == waistRise.id)">
             <div class="w-100">
               <div class="form-group">
-                <label>Waistrise Name to Update</label>
-                <input (keyup.enter)="addWaistrise()" autofocus
-                       #waistriseToUpdateInput
-                       [ngModel]="waistrise.name" type="text" class="form-control">
+                <label>WaistRise to Update</label>
+                <input (keyup.enter)="addWaistRise()" autofocus
+                       #waistRiseToUpdateInput
+                       [ngModel]="waistRise.name" type="text" class="form-control">
               </div>
               <div class="text-right">
                 <button (click)="itemToEdit = null" class="btn btn-dark mr-3 btn-sm"> <i class="fa fa-times mr-1"></i>Cancel</button>
-                <button (click)="updateWaistrise(waistriseToUpdateInput)" [disabled]="waistriseToUpdateInput.value.trim().length < 3" class="btn btn-primary btn-sm"> <i class="fa fa-save mr-1"></i>Save</button>
+                <button (click)="updateWaistRise(waistRiseToUpdateInput)" [disabled]="waistRiseToUpdateInput.value.trim().length < 3" class="btn btn-primary btn-sm"> <i class="fa fa-save mr-1"></i>Save</button>
               </div>
             </div>
           </ng-container>
-          <ng-container *ngIf="!itemToEdit || (itemToEdit && itemToEdit.id != waistrise.id)">
-            {{waistrise.name}}
+          <ng-container *ngIf="!itemToEdit || (itemToEdit && itemToEdit.id != waistRise.id)">
+            {{waistRise.name}}
             <div>
-              <button (click)="deleteWaistrise(waistrise)" type="button" class="btn btn-danger btn-sm mr-2">
+              <button (click)="deleteWaistRise(waistRise)" type="button" class="btn btn-danger btn-sm mr-2">
                 <i class="fa fa-trash mr-1"></i>Delete
               </button>
-              <button (click)="itemToEdit = waistrise" type="button" class="btn btn-warning btn-sm">
+              <button (click)="itemToEdit = waistRise" type="button" class="btn btn-warning btn-sm">
                 <i class="fa fa-edit mr-1"></i>Edit
               </button>
             </div>
@@ -48,4 +48,3 @@
       </ng-container>
     </ul>
   </div>
-  

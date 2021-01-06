@@ -1,64 +1,54 @@
 import {Component, OnInit} from '@angular/core';
-import {WaistriseService, IWaistrise} from './service/waist-rise.service';
+import {WaistRiseService, IWaistRise} from './service/waist-rise.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface WaistriseInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
 @Component({
   selector: 'app-waist-rise',
   templateUrl: './waist-rise.component.html',
   styleUrls: ['./waist-rise.component.scss']
 })
 export class WaistRiseComponent  {
-  moduleName = 'Waistrise';
+  moduleName = 'WaistRise';
   newName = '';
-  itemToEdit: IWaistrise = null;
+  itemToEdit: IWaistRise = null;
 
   constructor(
-    public service: WaistriseService,
+    public service: WaistRiseService,
     private toastr: ToastrService,
   ) {
   }
 
-  addWaistrise() {
+  addWaistRise() {
     if (this.newName.trim().length >= 3) {
-      this.service.addWaistrise({name: this.newName}).then(value => {
+      this.service.addWaistRise({name: this.newName}).then(value => {
         this.newName = '';
         this.toastr.success(`New ${this.moduleName} Added Successfully`, 'Added Successfully');
       }, reason => {
-        this.toastr.error(`Error while adding New ${this.moduleName}, Please try again`, `Error while adding Waistrise ${this.moduleName}`);
+        this.toastr.error(`Error while adding New ${this.moduleName}, Please try again`, `Error while adding WaistRise ${this.moduleName}`);
       })
     }
   }
 
-  deleteWaistrise(waistrise: IWaistrise) {
-    const isConfirmed = confirm('Are you sure do you want to delete Waistrise?');
+  deleteWaistRise(waistRise: IWaistRise) {
+    const isConfirmed = confirm('Are you sure do you want to delete WaistRise?');
     if (isConfirmed) {
-      this.service.deleteWaistrise(waistrise).then(value => {
+      this.service.deleteWaistRise(waistRise).then(value => {
         this.newName = '';
-        this.toastr.success('New Waistrise deleted Successfully', 'Delete Successfully');
+        this.toastr.success('New WaistRise deleted Successfully', 'Delete Successfully');
       }, reason => {
-        this.toastr.error('Error while deleting New Waistrise, Please try again', 'Error while deleting Waistrise');
+        this.toastr.error('Error while deleting New WaistRise, Please try again', 'Error while deleting WaistRise');
       })
     }
   }
 
-  updateWaistrise(waistriseToUpdateInput: HTMLInputElement) {
+  updateWaistRise(waistRiseToUpdateInput: HTMLInputElement) {
     const isConfirmed = confirm('Are you sure do you want to save Changes?');
     if (isConfirmed) {
-      this.service.updateWaistrise({name: waistriseToUpdateInput.value, id: this.itemToEdit.id}).then(value => {
+      this.service.updateWaistRise({name: waistRiseToUpdateInput.value, id: this.itemToEdit.id}).then(value => {
         this.newName = '';
-        this.toastr.success('New Waistrise updated Successfully', 'Update Successfully');
+        this.toastr.success('New WaistRise updated Successfully', 'Update Successfully');
         this.itemToEdit = null;
-      }, reason => {
-        this.toastr.error('Error while updating New Waistrise, Please try again', 'Error while updating Waistrise');
+      }, (reason: any) => {
+        this.toastr.error('Error while updating New WaistRise, Please try again', 'Error while updating WaistRise');
       })
     }
   }

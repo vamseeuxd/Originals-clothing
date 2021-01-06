@@ -8,7 +8,7 @@ import {UsersService} from '../../users/service/users.service'
 import {BusyIndicatorService} from '../../../components/busy-indicator/busy-indicator.service';
 import firebase from 'firebase';
 
-export interface IWaistrise {
+export interface IWaistRise {
   name: string
   id?: string
   deleted?: boolean
@@ -21,9 +21,9 @@ export interface IWaistrise {
 @Injectable({
   providedIn: 'root',
 })
-export class WaistriseService {
-  private waistrisesAction: AngularFirestoreCollection<IWaistrise>
-  readonly waistrises$: Observable<IWaistrise[]>
+export class WaistRiseService {
+  private waistRisesAction: AngularFirestoreCollection<IWaistRise>
+  readonly waistRises$: Observable<IWaistRise[]>
   private activeUser: string
 
   constructor(
@@ -31,9 +31,9 @@ export class WaistriseService {
     private usersService: UsersService,
     public busyIndicator: BusyIndicatorService
   ) {
-    this.waistrisesAction = firestore.collection<IWaistrise>('waistrises')
-    this.waistrises$ = firestore
-      .collection<IWaistrise>('waistrises', (ref) => {
+    this.waistRisesAction = firestore.collection<IWaistRise>('waistRises')
+    this.waistRises$ = firestore
+      .collection<IWaistRise>('waistRises', (ref) => {
         return ref.where('deleted', '==', false).orderBy('createdOn')
       })
       .valueChanges()
@@ -42,12 +42,12 @@ export class WaistriseService {
     })
   }
 
-  addWaistrise(waistrise: IWaistrise): Promise<any> {
+  addWaistRise(waistRise: IWaistRise): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (waistrise.name.trim().length > 0) {
+      if (waistRise.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.waistrisesAction.ref.doc()
-        const name = waistrise.name.trim()
+        const docRef = this.waistRisesAction.ref.doc()
+        const name = waistRise.name.trim()
         const id = docRef.id
         const deleted = false
         const createdOn = this.getServerTime()
@@ -74,12 +74,12 @@ export class WaistriseService {
     })
   }
 
-  updateWaistrise(waistrise: IWaistrise): Promise<any> {
+  updateWaistRise(waistRise: IWaistRise): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (waistrise.name.trim().length > 0) {
+      if (waistRise.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.waistrisesAction.doc(waistrise.id).ref
-        const name = waistrise.name.trim()
+        const docRef = this.waistRisesAction.doc(waistRise.id).ref
+        const name = waistRise.name.trim()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
         try {
@@ -94,11 +94,11 @@ export class WaistriseService {
     })
   }
 
-  deleteWaistrise(waistrise: IWaistrise): Promise<any> {
+  deleteWaistRise(waistRise: IWaistRise): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const busyIndicatorId = this.busyIndicator.show()
       try {
-        const docRef = await this.waistrisesAction.doc(waistrise.id)
+        const docRef = await this.waistRisesAction.doc(waistRise.id)
         const doc = await docRef.get().toPromise()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -117,8 +117,8 @@ export class WaistriseService {
     })
   }
 
-  getWaistrises(): Observable<IWaistrise[]> {
-    return this.waistrises$
+  getWaistRises(): Observable<IWaistRise[]> {
+    return this.waistRises$
   }
 
   getServerTime(): any {

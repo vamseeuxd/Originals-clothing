@@ -22,8 +22,8 @@ export interface ICategory {
   providedIn: 'root',
 })
 export class CategoryService {
-  private categorysAction: AngularFirestoreCollection<ICategory>
-  readonly categorys$: Observable<ICategory[]>
+  private categoriesAction: AngularFirestoreCollection<ICategory>
+  readonly categories$: Observable<ICategory[]>
   private activeUser: string
 
   constructor(
@@ -31,9 +31,9 @@ export class CategoryService {
     private usersService: UsersService,
     public busyIndicator: BusyIndicatorService
   ) {
-    this.categorysAction = firestore.collection<ICategory>('categorys')
-    this.categorys$ = firestore
-      .collection<ICategory>('categorys', (ref) => {
+    this.categoriesAction = firestore.collection<ICategory>('categories')
+    this.categories$ = firestore
+      .collection<ICategory>('categories', (ref) => {
         return ref.where('deleted', '==', false).orderBy('createdOn')
       })
       .valueChanges()
@@ -46,7 +46,7 @@ export class CategoryService {
     return new Promise(async (resolve, reject) => {
       if (category.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.categorysAction.ref.doc()
+        const docRef = this.categoriesAction.ref.doc()
         const name = category.name.trim()
         const id = docRef.id
         const deleted = false
@@ -78,7 +78,7 @@ export class CategoryService {
     return new Promise(async (resolve, reject) => {
       if (category.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.categorysAction.doc(category.id).ref
+        const docRef = this.categoriesAction.doc(category.id).ref
         const name = category.name.trim()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -98,7 +98,7 @@ export class CategoryService {
     return new Promise(async (resolve, reject) => {
       const busyIndicatorId = this.busyIndicator.show()
       try {
-        const docRef = await this.categorysAction.doc(category.id)
+        const docRef = await this.categoriesAction.doc(category.id)
         const doc = await docRef.get().toPromise()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -117,8 +117,8 @@ export class CategoryService {
     })
   }
 
-  getCategorys(): Observable<ICategory[]> {
-    return this.categorys$
+  getCategories(): Observable<ICategory[]> {
+    return this.categories$
   }
 
   getServerTime(): any {

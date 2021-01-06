@@ -5,9 +5,9 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="form-group">
-              <label>New Type Name</label>
+              <label>New Type</label>
               <input (keyup.enter)="addType()" autofocus
-                     [(ngModel)]="newName" type="text" class="form-control"> 
+                     [(ngModel)]="newName" type="text" class="form-control">
             </div>
             <div class="text-right">
               <button (click)="addType()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
@@ -15,14 +15,14 @@
               </button>
             </div>
           </li>
-        </ul> 
+        </ul>
       </li>
       <ng-container *ngIf="service.getTypes() | async as types">
         <li *ngFor="let type of types" class="list-group-item d-flex justify-content-between align-items-center">
           <ng-container *ngIf="(itemToEdit && itemToEdit.id == type.id)">
             <div class="w-100">
               <div class="form-group">
-                <label>Type Name to Update</label>
+                <label>Type to Update</label>
                 <input (keyup.enter)="addType()" autofocus
                        #typeToUpdateInput
                        [ngModel]="type.name" type="text" class="form-control">
@@ -48,4 +48,3 @@
       </ng-container>
     </ul>
   </div>
-  

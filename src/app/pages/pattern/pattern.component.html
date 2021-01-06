@@ -5,9 +5,9 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="form-group">
-              <label>New Pattern Name</label>
+              <label>New Pattern</label>
               <input (keyup.enter)="addPattern()" autofocus
-                     [(ngModel)]="newName" type="text" class="form-control"> 
+                     [(ngModel)]="newName" type="text" class="form-control">
             </div>
             <div class="text-right">
               <button (click)="addPattern()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
@@ -15,14 +15,14 @@
               </button>
             </div>
           </li>
-        </ul> 
+        </ul>
       </li>
       <ng-container *ngIf="service.getPatterns() | async as patterns">
         <li *ngFor="let pattern of patterns" class="list-group-item d-flex justify-content-between align-items-center">
           <ng-container *ngIf="(itemToEdit && itemToEdit.id == pattern.id)">
             <div class="w-100">
               <div class="form-group">
-                <label>Pattern Name to Update</label>
+                <label>Pattern to Update</label>
                 <input (keyup.enter)="addPattern()" autofocus
                        #patternToUpdateInput
                        [ngModel]="pattern.name" type="text" class="form-control">
@@ -48,4 +48,3 @@
       </ng-container>
     </ul>
   </div>
-  

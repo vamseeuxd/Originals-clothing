@@ -5,7 +5,7 @@
       <ul class="list-group">
         <li class="list-group-item">
           <div class="form-group">
-            <label>New Gender Name</label>
+            <label>New Gender</label>
             <input (keyup.enter)="addGender()" autofocus
                    [(ngModel)]="newName" type="text" class="form-control">
           </div>
@@ -22,7 +22,7 @@
         <ng-container *ngIf="(itemToEdit && itemToEdit.id == gender.id)">
           <div class="w-100">
             <div class="form-group">
-              <label>Gender Name to Update</label>
+              <label>Gender to Update</label>
               <input (keyup.enter)="addGender()" autofocus
                      #genderToUpdateInput
                      [ngModel]="gender.name" type="text" class="form-control">

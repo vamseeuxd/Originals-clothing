@@ -29,6 +29,9 @@ import {GenderComponent} from './pages/gender/gender.component';
 import {FormsModule} from '@angular/forms';
 import {UsersComponent} from './pages/users/users.component';
 import {ToastrModule} from 'ngx-toastr';
+import {CustomFormsModule} from 'ng2-validation';
+import {HttpClientModule} from '@angular/common/http';
+import {NgPipesModule} from 'ngx-pipes';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,9 @@ import {ToastrModule} from 'ngx-toastr';
     BrowserAnimationsModule,
     WebRtcModule.forRoot(),
     FormsModule,
+    HttpClientModule,
+    CustomFormsModule,
+    NgPipesModule,
     ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})

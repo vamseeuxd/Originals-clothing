@@ -1,16 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CollarService, ICollar} from './service/collar.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface CollarInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
 @Component({
   selector: 'app-collar',
   templateUrl: './collar.component.html',

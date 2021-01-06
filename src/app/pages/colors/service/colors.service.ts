@@ -22,8 +22,8 @@ export interface IColors {
   providedIn: 'root',
 })
 export class ColorsService {
-  private colorssAction: AngularFirestoreCollection<IColors>
-  readonly colorss$: Observable<IColors[]>
+  private colorsAction: AngularFirestoreCollection<IColors>
+  readonly colors$: Observable<IColors[]>
   private activeUser: string
 
   constructor(
@@ -31,9 +31,9 @@ export class ColorsService {
     private usersService: UsersService,
     public busyIndicator: BusyIndicatorService
   ) {
-    this.colorssAction = firestore.collection<IColors>('colorss')
-    this.colorss$ = firestore
-      .collection<IColors>('colorss', (ref) => {
+    this.colorsAction = firestore.collection<IColors>('colors')
+    this.colors$ = firestore
+      .collection<IColors>('colors', (ref) => {
         return ref.where('deleted', '==', false).orderBy('createdOn')
       })
       .valueChanges()
@@ -46,7 +46,7 @@ export class ColorsService {
     return new Promise(async (resolve, reject) => {
       if (colors.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.colorssAction.ref.doc()
+        const docRef = this.colorsAction.ref.doc()
         const name = colors.name.trim()
         const id = docRef.id
         const deleted = false
@@ -78,7 +78,7 @@ export class ColorsService {
     return new Promise(async (resolve, reject) => {
       if (colors.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.colorssAction.doc(colors.id).ref
+        const docRef = this.colorsAction.doc(colors.id).ref
         const name = colors.name.trim()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -98,7 +98,7 @@ export class ColorsService {
     return new Promise(async (resolve, reject) => {
       const busyIndicatorId = this.busyIndicator.show()
       try {
-        const docRef = await this.colorssAction.doc(colors.id)
+        const docRef = await this.colorsAction.doc(colors.id)
         const doc = await docRef.get().toPromise()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -117,8 +117,8 @@ export class ColorsService {
     })
   }
 
-  getColorss(): Observable<IColors[]> {
-    return this.colorss$
+  getColors(): Observable<IColors[]> {
+    return this.colors$
   }
 
   getServerTime(): any {
