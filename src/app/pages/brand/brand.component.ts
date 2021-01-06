@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BrandService, IBrand} from './service/brand.service';
 import {ToastrService} from 'ngx-toastr';
+import {ImageCroppedEvent, ImageTransform} from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-brand',
@@ -65,4 +66,50 @@ export class BrandComponent {
       })
     }
   }
+
+  /*  ------------------------------------------------- */
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  editImage: any = '';
+  scale = 1;
+  transform: ImageTransform = {};
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    console.log(this.croppedImage);
+  }
+
+  imageLoaded(image: HTMLImageElement) {
+    // show cropper
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+
+  loadImageFailed() {
+    // show message
+  }
+
+  zoomOut() {
+    this.scale -= .1;
+    this.transform = {
+      ...this.transform,
+      scale: this.scale
+    };
+  }
+
+  zoomIn() {
+    this.scale += .1;
+    this.transform = {
+      ...this.transform,
+      scale: this.scale
+    };
+  }
+
+  /*  ------------------------------------------------- */
 }

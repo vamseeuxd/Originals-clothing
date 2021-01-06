@@ -32,6 +32,8 @@ import {ToastrModule} from 'ngx-toastr';
 import {CustomFormsModule} from 'ng2-validation';
 import {HttpClientModule} from '@angular/common/http';
 import {NgPipesModule} from 'ngx-pipes';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import {NgPipesModule} from 'ngx-pipes';
     HttpClientModule,
     CustomFormsModule,
     NgPipesModule,
+    ImageCropperModule,
     ToastrModule.forRoot(),
+    ModalModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],

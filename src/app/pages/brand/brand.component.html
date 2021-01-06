@@ -13,7 +13,15 @@
                        class="form-control">
                 <small class="form-text text-muted">Provide valid Brand Name with minimum 3 character.</small>
               </div>
-              <div class="form-group">
+              <label>Brand Logo<code>*</code> </label>
+              <div class="image-preview" (click)="staticModal.show()">
+                <span *ngIf="!logoUrl"><i class="fa fa-picture-o" style="font-size: 50px"></i></span>
+                <input autocomplete="off" name="logoUrl" required [(ngModel)]="logoUrl" type="text"
+                       class="form-control d-none">
+                <img *ngIf="logoUrl" [src]="logoUrl" width="98" height="98"/>
+              </div>
+              <small class="form-text text-muted">Provide valid Image for Brand.</small>
+              <!--<div class="form-group">
                 <label>Brand Logo Url to Update <code>*</code> </label>
                 <div class="input-group">
                   <input autocomplete="off" name="logoUrl" url required [(ngModel)]="logoUrl" type="url"
@@ -23,7 +31,7 @@
                   </div>
                 </div>
                 <small class="form-text text-muted">Provide valid Image URL for Brand.</small>
-              </div>
+              </div>-->
               <div class="alert alert-danger" role="alert" *ngIf="isDuplicateBrandName(brands, newName)">
                 Duplicate Brand names are not allowed
               </div>
@@ -49,7 +57,7 @@
                        [ngModel]="brand.name" type="text" class="form-control">
                 <small class="form-text text-muted">Provide valid Brand Name with minimum 3 character.</small>
               </div>
-              <div class="form-group">
+              <!--<div class="form-group">
                 <label>Brand Logo Url to Update </label>
                 <div class="input-group">
                   <input #brandLogoUrlToUpdateInput
@@ -62,7 +70,15 @@
                   </div>
                 </div>
                 <small class="form-text text-muted">Provide valid Image URL for Brand.</small>
+              </div>-->
+              <label>Brand Logo Url to Update </label>
+              <div class="image-preview" (click)="croppedImage=editImage;staticModal.show()">
+                <span *ngIf="!editImage"><i class="fa fa-picture-o" style="font-size: 50px"></i></span>
+                <input #brandLogoUrlToUpdateInput autocomplete="off" name="logoUrl" required
+                       [(ngModel)]="editImage" type="text" class="form-control d-none">
+                <img *ngIf="editImage" [src]="editImage" width="98" height="98"/>
               </div>
+              <small class="form-text text-muted">Provide valid Image for Brand.</small>
               <div class="alert alert-danger" role="alert"
                    *ngIf="isDuplicateBrandName(brands, brandToUpdateInput.value, brand.name)">
                 Duplicate Category names are not allowed
@@ -88,7 +104,7 @@
               <button (click)="deleteBrand(brand)" type="button" class="btn btn-danger btn-sm mr-4">
                 <i class="fa fa-trash"></i>
               </button>
-              <button (click)="itemToEdit = brand" type="button" class="btn btn-warning btn-sm">
+              <button (click)="itemToEdit = brand;editImage=brand.logoUrl" type="button" class="btn btn-warning btn-sm">
                 <i class="fa fa-edit"></i>
               </button>
             </div>
@@ -98,3 +114,52 @@
     </ul>
   </div>
 </ng-container>
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left">Update or Add Brand Logo</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 3"
+          format="png"
+          [transform]="transform"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+        <hr>
+        <div class="image-preview bg-white border">
+          <span *ngIf="!croppedImage"><i class="fa fa-picture-o" style="font-size: 50px"></i></span>
+          <img *ngIf="croppedImage" [src]="croppedImage" width="98" height="98"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-primary"
+                (click)="(itemToEdit ? editImage=croppedImage : logoUrl=croppedImage);staticModal.hide()"><i
+          class="fa fa-save mr-2"></i>Save
+        </button>
+        <input type="file" (change)="fileChangeEvent($event)" class="d-none" #fileInput/>
+        <button class="btn btn-outline-danger" (click)="fileInput.click();"><i
+          class="fa fa-picture-o mr-2"></i>{{croppedImage ? 'Change' : 'Upload'}} Image
+        </button>
+        <button class="btn btn-outline-warning" (click)="zoomOut()">
+          <li class="fa fa-search-minus"></li>
+        </button>
+        <button class="btn btn-outline-warning" (click)="zoomIn()">
+          <li class="fa fa-search-plus"></li>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

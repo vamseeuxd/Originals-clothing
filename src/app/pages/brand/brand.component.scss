@@ -1,0 +1,15 @@
+:host {
+  .image-preview {
+    width: 100px;
+    height: 100px;
+    background: #f5f5f5;
+    text-align: center;
+    line-height: 100px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.2);
+    border: 3px solid #ced4da;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+  }
+}
