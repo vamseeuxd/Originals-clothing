@@ -1,15 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryService, ICategory} from './service/category.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface CategoryInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',

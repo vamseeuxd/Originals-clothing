@@ -5,9 +5,9 @@
       <ul class="list-group">
         <li class="list-group-item">
           <div class="form-group">
-            <label>New Brand Name</label>
+            <label>New Brand</label>
             <input (keyup.enter)="addBrand()" autofocus
-                   [(ngModel)]="newName" type="text" class="form-control"> 
+                   [(ngModel)]="newName" type="text" class="form-control">
           </div>
           <div class="text-right">
             <button (click)="addBrand()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
@@ -15,14 +15,14 @@
             </button>
           </div>
         </li>
-      </ul> 
+      </ul>
     </li>
     <ng-container *ngIf="service.getBrands() | async as brands">
       <li *ngFor="let brand of brands" class="list-group-item d-flex justify-content-between align-items-center">
         <ng-container *ngIf="(itemToEdit && itemToEdit.id == brand.id)">
           <div class="w-100">
             <div class="form-group">
-              <label>Brand Name to Update</label>
+              <label>Brand to Update</label>
               <input (keyup.enter)="addBrand()" autofocus
                      #brandToUpdateInput
                      [ngModel]="brand.name" type="text" class="form-control">

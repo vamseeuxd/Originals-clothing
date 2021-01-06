@@ -1,16 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BrandService, IBrand} from './service/brand.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface BrandInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
 @Component({
   selector: 'app-brand',
   templateUrl: './brand.component.html',

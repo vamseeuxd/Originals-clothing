@@ -1,16 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SleeveService, ISleeve} from './service/sleeve.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface SleeveInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
 @Component({
   selector: 'app-sleeve',
   templateUrl: './sleeve.component.html',

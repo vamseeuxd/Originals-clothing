@@ -8,7 +8,7 @@ import {UsersService} from '../../users/service/users.service'
 import {BusyIndicatorService} from '../../../components/busy-indicator/busy-indicator.service';
 import firebase from 'firebase';
 
-export interface IFabricfamily {
+export interface IFabricFamily {
   name: string
   id?: string
   deleted?: boolean
@@ -21,9 +21,9 @@ export interface IFabricfamily {
 @Injectable({
   providedIn: 'root',
 })
-export class FabricfamilyService {
-  private fabricfamilysAction: AngularFirestoreCollection<IFabricfamily>
-  readonly fabricfamilys$: Observable<IFabricfamily[]>
+export class FabricFamilyService {
+  private fabricFamiliesAction: AngularFirestoreCollection<IFabricFamily>
+  readonly fabricFamilies$: Observable<IFabricFamily[]>
   private activeUser: string
 
   constructor(
@@ -31,9 +31,9 @@ export class FabricfamilyService {
     private usersService: UsersService,
     public busyIndicator: BusyIndicatorService
   ) {
-    this.fabricfamilysAction = firestore.collection<IFabricfamily>('fabricfamilys')
-    this.fabricfamilys$ = firestore
-      .collection<IFabricfamily>('fabricfamilys', (ref) => {
+    this.fabricFamiliesAction = firestore.collection<IFabricFamily>('fabricFamilies')
+    this.fabricFamilies$ = firestore
+      .collection<IFabricFamily>('fabricFamilies', (ref) => {
         return ref.where('deleted', '==', false).orderBy('createdOn')
       })
       .valueChanges()
@@ -42,12 +42,12 @@ export class FabricfamilyService {
     })
   }
 
-  addFabricfamily(fabricfamily: IFabricfamily): Promise<any> {
+  addFabricFamily(fabricFamily: IFabricFamily): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (fabricfamily.name.trim().length > 0) {
+      if (fabricFamily.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.fabricfamilysAction.ref.doc()
-        const name = fabricfamily.name.trim()
+        const docRef = this.fabricFamiliesAction.ref.doc()
+        const name = fabricFamily.name.trim()
         const id = docRef.id
         const deleted = false
         const createdOn = this.getServerTime()
@@ -74,12 +74,12 @@ export class FabricfamilyService {
     })
   }
 
-  updateFabricfamily(fabricfamily: IFabricfamily): Promise<any> {
+  updateFabricFamily(fabricFamily: IFabricFamily): Promise<any> {
     return new Promise(async (resolve, reject) => {
-      if (fabricfamily.name.trim().length > 0) {
+      if (fabricFamily.name.trim().length > 0) {
         const busyIndicatorId = this.busyIndicator.show()
-        const docRef = this.fabricfamilysAction.doc(fabricfamily.id).ref
-        const name = fabricfamily.name.trim()
+        const docRef = this.fabricFamiliesAction.doc(fabricFamily.id).ref
+        const name = fabricFamily.name.trim()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
         try {
@@ -94,11 +94,11 @@ export class FabricfamilyService {
     })
   }
 
-  deleteFabricfamily(fabricfamily: IFabricfamily): Promise<any> {
+  deleteFabricFamily(fabricFamily: IFabricFamily): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const busyIndicatorId = this.busyIndicator.show()
       try {
-        const docRef = await this.fabricfamilysAction.doc(fabricfamily.id)
+        const docRef = await this.fabricFamiliesAction.doc(fabricFamily.id)
         const doc = await docRef.get().toPromise()
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
@@ -117,8 +117,8 @@ export class FabricfamilyService {
     })
   }
 
-  getFabricfamilys(): Observable<IFabricfamily[]> {
-    return this.fabricfamilys$
+  getFabricFamilies(): Observable<IFabricFamily[]> {
+    return this.fabricFamilies$
   }
 
   getServerTime(): any {

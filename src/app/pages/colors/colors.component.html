@@ -5,7 +5,7 @@
       <ul class="list-group">
         <li class="list-group-item">
           <div class="form-group">
-            <label>New Color Name</label>
+            <label>New Color</label>
             <input (keyup.enter)="addColor()" autofocus
                    [(ngModel)]="newName" type="text" class="form-control">
           </div>
@@ -22,7 +22,7 @@
         <ng-container *ngIf="(itemToEdit && itemToEdit.id == color.id)">
           <div class="w-100">
             <div class="form-group">
-              <label>Color Name to Update</label>
+              <label>Color to Update</label>
               <input (keyup.enter)="addColor()" autofocus
                      #colorToUpdateInput
                      [ngModel]="color.name" type="text" class="form-control">

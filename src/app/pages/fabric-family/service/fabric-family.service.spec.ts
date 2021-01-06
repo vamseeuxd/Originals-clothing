@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing'
 
-import { FabricfamilyService } from './fabric-family.service'
+import { FabricFamilyService } from './fabric-family.service'
 
 describe('CountriesService', () => {
-  let service: FabricfamilyService
+  let service: FabricFamilyService
 
   beforeEach(() => {
     TestBed.configureTestingModule({})
-    service = TestBed.inject(FabricfamilyService)
+    service = TestBed.inject(FabricFamilyService)
   })
 
   it('should be created', () => {

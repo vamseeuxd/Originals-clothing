@@ -1,16 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PatternService, IPattern} from './service/pattern.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface PatternInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
 @Component({
   selector: 'app-pattern',
   templateUrl: './pattern.component.html',

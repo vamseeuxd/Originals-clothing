@@ -1,16 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TypeService, IType} from './service/type.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface TypeInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
 @Component({
   selector: 'app-type',
   templateUrl: './type.component.html',

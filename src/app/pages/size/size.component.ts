@@ -1,16 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SizeService, ISize} from './service/size.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface SizeInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
 @Component({
   selector: 'app-size',
   templateUrl: './size.component.html',

@@ -5,9 +5,9 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="form-group">
-              <label>New Collar Name</label>
+              <label>New Collar</label>
               <input (keyup.enter)="addCollar()" autofocus
-                     [(ngModel)]="newName" type="text" class="form-control"> 
+                     [(ngModel)]="newName" type="text" class="form-control">
             </div>
             <div class="text-right">
               <button (click)="addCollar()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
@@ -22,7 +22,7 @@
           <ng-container *ngIf="(itemToEdit && itemToEdit.id == collar.id)">
             <div class="w-100">
               <div class="form-group">
-                <label>Collar Name to Update</label>
+                <label>Collar to Update</label>
                 <input (keyup.enter)="addCollar()" autofocus
                        #collarToUpdateInput
                        [ngModel]="collar.name" type="text" class="form-control">
@@ -48,4 +48,3 @@
       </ng-container>
     </ul>
   </div>
-  

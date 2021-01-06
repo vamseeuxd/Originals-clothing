@@ -1,69 +1,58 @@
 import {Component, OnInit} from '@angular/core';
-import {FabricfamilyService, IFabricfamily} from './service/fabric-family.service';
+import {FabricFamilyService, IFabricFamily} from './service/fabric-family.service';
 import {ToastrService} from 'ngx-toastr';
-
-export interface FabricfamilyInterface {
-  name: string,
-  deleted: boolean;
-  createdOn: {
-    "seconds": number,
-    "nanoseconds": number
-  }
-}
-
-
 @Component({
   selector: 'app-fabric-family',
   templateUrl: './fabric-family.component.html',
   styleUrls: ['./fabric-family.component.scss']
 })
 export class FabricFamilyComponent  {
-  moduleName = 'Fabricfamily';
+  moduleName = 'FabricFamily';
   newName = '';
-  itemToEdit: IFabricfamily = null;
+  itemToEdit: IFabricFamily = null;
 
   constructor(
-    public service: FabricfamilyService,
+    public service: FabricFamilyService,
     private toastr: ToastrService,
   ) {
   }
 
-  addFabricfamily() {
+  addFabricFamily() {
     if (this.newName.trim().length >= 3) {
-      this.service.addFabricfamily({name: this.newName}).then(value => {
+      this.service.addFabricFamily({name: this.newName}).then(value => {
         this.newName = '';
         this.toastr.success(`New ${this.moduleName} Added Successfully`, 'Added Successfully');
       }, reason => {
-        this.toastr.error(`Error while adding New ${this.moduleName}, Please try again`, `Error while adding Fabricfamily ${this.moduleName}`);
+        this.toastr.error(`Error while adding New ${this.moduleName}, Please try again`, `Error while adding FabricFamily ${this.moduleName}`);
       })
     }
   }
 
-  deleteFabricfamily(fabricfamily: IFabricfamily) {
-    const isConfirmed = confirm('Are you sure do you want to delete Fabricfamily?');
+  deleteFabricFamily(fabricFamily: IFabricFamily) {
+    const isConfirmed = confirm('Are you sure do you want to delete FabricFamily?');
     if (isConfirmed) {
-      this.service.deleteFabricfamily(fabricfamily).then(value => {
+      this.service.deleteFabricFamily(fabricFamily).then(value => {
         this.newName = '';
-        this.toastr.success('New Fabricfamily deleted Successfully', 'Delete Successfully');
+        this.toastr.success('New FabricFamily deleted Successfully', 'Delete Successfully');
       }, reason => {
-        this.toastr.error('Error while deleting New Fabricfamily, Please try again', 'Error while deleting Fabricfamily');
+        this.toastr.error('Error while deleting New FabricFamily, Please try again', 'Error while deleting FabricFamily');
       })
     }
   }
 
-  updateFabricfamily(fabricfamilyToUpdateInput: HTMLInputElement) {
+  updateFabricFamily(fabricFamilyToUpdateInput: HTMLInputElement) {
     const isConfirmed = confirm('Are you sure do you want to save Changes?');
     if (isConfirmed) {
-      this.service.updateFabricfamily({name: fabricfamilyToUpdateInput.value, id: this.itemToEdit.id}).then(value => {
+      this.service.updateFabricFamily({name: fabricFamilyToUpdateInput.value, id: this.itemToEdit.id}).then(value => {
         this.newName = '';
-        this.toastr.success('New Fabricfamily updated Successfully', 'Update Successfully');
+        this.toastr.success('New FabricFamily updated Successfully', 'Update Successfully');
         this.itemToEdit = null;
       }, reason => {
-        this.toastr.error('Error while updating New Fabricfamily, Please try again', 'Error while updating Fabricfamily');
+        this.toastr.error('Error while updating New FabricFamily, Please try again', 'Error while updating FabricFamily');
       })
     }
   }
 
-  
+
 
 }

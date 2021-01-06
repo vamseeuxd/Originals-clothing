@@ -5,9 +5,9 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="form-group">
-              <label>New Sleeve Name</label>
+              <label>New Sleeve</label>
               <input (keyup.enter)="addSleeve()" autofocus
-                     [(ngModel)]="newName" type="text" class="form-control"> 
+                     [(ngModel)]="newName" type="text" class="form-control">
             </div>
             <div class="text-right">
               <button (click)="addSleeve()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
@@ -15,14 +15,14 @@
               </button>
             </div>
           </li>
-        </ul> 
+        </ul>
       </li>
       <ng-container *ngIf="service.getSleeves() | async as sleeves">
         <li *ngFor="let sleeve of sleeves" class="list-group-item d-flex justify-content-between align-items-center">
           <ng-container *ngIf="(itemToEdit && itemToEdit.id == sleeve.id)">
             <div class="w-100">
               <div class="form-group">
-                <label>Sleeve Name to Update</label>
+                <label>Sleeve to Update</label>
                 <input (keyup.enter)="addSleeve()" autofocus
                        #sleeveToUpdateInput
                        [ngModel]="sleeve.name" type="text" class="form-control">
@@ -48,4 +48,3 @@
       </ng-container>
     </ul>
   </div>
-  

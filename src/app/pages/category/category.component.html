@@ -5,9 +5,9 @@
       <ul class="list-group">
         <li class="list-group-item">
           <div class="form-group">
-            <label>New Category Name</label>
+            <label>New Category</label>
             <input (keyup.enter)="addCategory()" autofocus
-                   [(ngModel)]="newName" type="text" class="form-control"> 
+                   [(ngModel)]="newName" type="text" class="form-control">
           </div>
           <div class="text-right">
             <button (click)="addCategory()" [disabled]="newName.trim().length < 3" class="btn btn-primary btn-sm">Add
@@ -17,12 +17,12 @@
         </li>
       </ul>
     </li>
-    <ng-container *ngIf="service.getCategorys() | async as categorys">
-      <li *ngFor="let category of categorys" class="list-group-item d-flex justify-content-between align-items-center">
+    <ng-container *ngIf="service.getCategories() | async as categories">
+      <li *ngFor="let category of categories" class="list-group-item d-flex justify-content-between align-items-center">
         <ng-container *ngIf="(itemToEdit && itemToEdit.id == category.id)">
           <div class="w-100">
             <div class="form-group">
-              <label>Category Name to Update</label>
+              <label>Category to Update</label>
               <input (keyup.enter)="addCategory()" autofocus
                      #categoryToUpdateInput
                      [ngModel]="category.name" type="text" class="form-control">
