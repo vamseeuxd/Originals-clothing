@@ -9,8 +9,9 @@ import {BusyIndicatorService} from '../../../components/busy-indicator/busy-indi
 import firebase from 'firebase';
 
 export interface IBrand {
-  name: string
   id?: string
+  name: string
+  logoUrl: string
   deleted?: boolean
   createdOn?: string
   updatedOn?: string
@@ -48,6 +49,7 @@ export class BrandService {
         const busyIndicatorId = this.busyIndicator.show()
         const docRef = this.brandsAction.ref.doc()
         const name = brand.name.trim()
+        const logoUrl = brand.logoUrl.trim()
         const id = docRef.id
         const deleted = false
         const createdOn = this.getServerTime()
@@ -57,6 +59,7 @@ export class BrandService {
         try {
           await docRef.set({
             name,
+            logoUrl,
             id,
             createdOn,
             updatedOn,
@@ -80,10 +83,11 @@ export class BrandService {
         const busyIndicatorId = this.busyIndicator.show()
         const docRef = this.brandsAction.doc(brand.id).ref
         const name = brand.name.trim()
+        const logoUrl = brand.logoUrl
         const updatedOn = this.getServerTime()
         const updatedBy = this.activeUser
         try {
-          await docRef.update({name, updatedOn, updatedBy})
+          await docRef.update({name, logoUrl, updatedOn, updatedBy})
           resolve(docRef.id)
           this.busyIndicator.hide(busyIndicatorId)
         } catch (e) {
