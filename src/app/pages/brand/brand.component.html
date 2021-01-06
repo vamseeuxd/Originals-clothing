@@ -9,8 +9,9 @@
             <form #newBrandForm="ngForm" class="w-100">
               <div class="form-group">
                 <label>New Brand <code>*</code></label>
-                <input autocomplete="off" name="name" minlength="3" required autofocus [(ngModel)]="newName" type="text" class="form-control">
-                <small class="form-text text-muted">Provide valid Brand Name with minimum 3 chartres.</small>
+                <input autocomplete="off" name="name" minlength="3" required autofocus [(ngModel)]="newName" type="text"
+                       class="form-control">
+                <small class="form-text text-muted">Provide valid Brand Name with minimum 3 character.</small>
               </div>
               <div class="form-group">
                 <label>Brand Logo Url to Update <code>*</code> </label>
@@ -39,32 +40,46 @@
       <ng-container>
         <li *ngFor="let brand of brands" class="list-group-item d-flex justify-content-between align-items-center">
           <ng-container *ngIf="(itemToEdit && itemToEdit.id == brand.id)">
-            <div class="w-100">
+            <form class="w-100" #updateBrandForm="ngForm">
               <div class="form-group">
-                <label>Brand to Update</label>
-                <input autofocus
+                <label>Brand to Update {{brandToUpdateInput.value}}</label>
+                <input autocomplete="off" name="name" minlength="3" required autofocus
                        #brandToUpdateInput
+                       [defaultValue]="brand.name"
                        [ngModel]="brand.name" type="text" class="form-control">
+                <small class="form-text text-muted">Provide valid Brand Name with minimum 3 character.</small>
               </div>
               <div class="form-group">
                 <label>Brand Logo Url to Update </label>
-                <div class="input-group mb-3">
-                  <input #brandLogoUrlToUpdateInput name="logoUrl" url required [ngModel]="brand.logoUrl" type="url"
+                <div class="input-group">
+                  <input #brandLogoUrlToUpdateInput
+                         autocomplete="off" name="logoUrl" url required
+                         [ngModel]="brand.logoUrl" type="url"
+                         [defaultValue]="brand.logoUrl"
                          class="form-control">
                   <div class="input-group-append pt-1 pl-2">
                     <img height="30" crossorigin="anonymous" [src]="brandLogoUrlToUpdateInput.value">
                   </div>
                 </div>
+                <small class="form-text text-muted">Provide valid Image URL for Brand.</small>
+              </div>
+              <div class="alert alert-danger" role="alert"
+                   *ngIf="isDuplicateBrandName(brands, brandToUpdateInput.value, brand.name)">
+                Duplicate Category names are not allowed
               </div>
               <div class="text-right">
                 <button (click)="itemToEdit = null" class="btn btn-dark mr-3 btn-sm"><i class="fa fa-times mr-1"></i>Cancel
                 </button>
+                <button (click)="updateBrandForm.resetForm(brand)" type="button" class="btn btn-warning btn-sm mr-3">
+                  <i class="fa fa-refresh mr-1"></i>Reset
+                </button>
                 <button (click)="updateBrand(brandToUpdateInput, brandLogoUrlToUpdateInput)"
-                        [disabled]="brandToUpdateInput.value.trim().length < 3" class="btn btn-primary btn-sm"><i
-                  class="fa fa-save mr-1"></i>Save
+                        [disabled]="updateBrandForm.invalid || (isDuplicateBrandName(brands, brandToUpdateInput.value) && brand.logoUrl == brandLogoUrlToUpdateInput.value.trim())"
+                        class="btn btn-primary btn-sm">
+                  <i class="fa fa-save mr-1"></i>Save
                 </button>
               </div>
-            </div>
+            </form>
           </ng-container>
           <ng-container *ngIf="!itemToEdit || (itemToEdit && itemToEdit.id != brand.id)">
             <img [src]="brand.logoUrl" height="40">

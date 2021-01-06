@@ -19,8 +19,10 @@ export class BrandComponent {
   ) {
   }
 
-  isDuplicateBrandName(brands: IBrand[], brandName): boolean {
-    return brands.map(d => d.name.toLowerCase().trim()).includes(brandName.toLowerCase().trim());
+  isDuplicateBrandName(brands: IBrand[], brandName, ignoreValue = ''): boolean {
+    return brands.map(d => d.name.toLowerCase().trim())
+      .filter(d => d.toLowerCase().trim() != ignoreValue.toLowerCase().trim())
+      .includes(brandName.toLowerCase().trim());
   }
 
   addBrand() {

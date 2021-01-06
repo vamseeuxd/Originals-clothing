@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryService, ICategory} from './service/category.service';
 import {ToastrService} from 'ngx-toastr';
+
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -15,6 +16,12 @@ export class CategoryComponent {
     public service: CategoryService,
     private toastr: ToastrService,
   ) {
+  }
+
+  isDuplicateCategoryName(brands: ICategory[], categoryName, ignoreValue = ''): boolean {
+    return brands.map(d => d.name.toLowerCase().trim())
+      .filter(d => d.toLowerCase().trim() != ignoreValue.toLowerCase().trim())
+      .includes(categoryName.toLowerCase().trim());
   }
 
   addCategory() {
