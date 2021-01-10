@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "arrow-animations": "ng g c arrow-animations/Dashboard",
     "build": "ng build --prod --optimization",
     "test": "ng test",
     "lint": "ng lint",

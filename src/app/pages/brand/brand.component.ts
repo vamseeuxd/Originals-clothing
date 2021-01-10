@@ -83,7 +83,7 @@ export class BrandComponent {
     console.log(this.croppedImage);
   }
 
-  imageLoaded(image: HTMLImageElement) {
+  imageLoaded(image: HTMLImageElement = null) {
     // show cropper
   }
 

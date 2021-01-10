@@ -34,6 +34,10 @@ import {HttpClientModule} from '@angular/common/http';
 import {NgPipesModule} from 'ngx-pipes';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {BatchesComponent} from './arrow-animations/batches/batches.component';
+import {TabsModule} from 'ngx-bootstrap/tabs';
+import { DashboardComponent } from './arrow-animations/dashboard/dashboard.component';
+import {StudentsComponent} from './arrow-animations/students/component';
 
 @NgModule({
   declarations: [
@@ -52,6 +56,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     WaistRiseComponent,
     GenderComponent,
     UsersComponent,
+    BatchesComponent,
+    StudentsComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +72,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ImageCropperModule,
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],

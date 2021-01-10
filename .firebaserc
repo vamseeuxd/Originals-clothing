@@ -1,9 +1,9 @@
 {
   "targets": {
-    "inventory-management-d8c7d": {
+    "originals-clothing": {
       "hosting": {
-        "originals-clothing": [
-          "inventory-management-d8c7d"
+        "oc-vizag": [
+          "oc-vizag"
         ]
       }
     }

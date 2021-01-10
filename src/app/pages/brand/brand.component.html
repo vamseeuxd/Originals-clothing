@@ -21,17 +21,6 @@
                 <img *ngIf="logoUrl" [src]="logoUrl" width="98" height="98"/>
               </div>
               <small class="form-text text-muted">Provide valid Image for Brand.</small>
-              <!--<div class="form-group">
-                <label>Brand Logo Url to Update <code>*</code> </label>
-                <div class="input-group">
-                  <input autocomplete="off" name="logoUrl" url required [(ngModel)]="logoUrl" type="url"
-                         class="form-control">
-                  <div class="input-group-append pt-1 pl-2">
-                    <img height="30" crossorigin="anonymous" [src]="logoUrl">
-                  </div>
-                </div>
-                <small class="form-text text-muted">Provide valid Image URL for Brand.</small>
-              </div>-->
               <div class="alert alert-danger" role="alert" *ngIf="isDuplicateBrandName(brands, newName)">
                 Duplicate Brand names are not allowed
               </div>
@@ -57,20 +46,6 @@
                        [ngModel]="brand.name" type="text" class="form-control">
                 <small class="form-text text-muted">Provide valid Brand Name with minimum 3 character.</small>
               </div>
-              <!--<div class="form-group">
-                <label>Brand Logo Url to Update </label>
-                <div class="input-group">
-                  <input #brandLogoUrlToUpdateInput
-                         autocomplete="off" name="logoUrl" url required
-                         [ngModel]="brand.logoUrl" type="url"
-                         [defaultValue]="brand.logoUrl"
-                         class="form-control">
-                  <div class="input-group-append pt-1 pl-2">
-                    <img height="30" crossorigin="anonymous" [src]="brandLogoUrlToUpdateInput.value">
-                  </div>
-                </div>
-                <small class="form-text text-muted">Provide valid Image URL for Brand.</small>
-              </div>-->
               <label>Brand Logo Url to Update </label>
               <div class="image-preview" (click)="croppedImage=editImage;staticModal.show()">
                 <span *ngIf="!editImage"><i class="fa fa-picture-o" style="font-size: 50px"></i></span>
