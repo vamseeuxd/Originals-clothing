@@ -16,6 +16,7 @@ export class StudentsComponent {
   itemToEdit: IStudent = null;
   itemToOpen: string;
   isBackEndCallInProgress = false;
+  searchText = '';
 
   constructor(
     public service: Service,
@@ -78,5 +79,9 @@ export class StudentsComponent {
   resetModal() {
     this.itemToEdit = null;
     this.newItem = NewEmptyItem;
+  }
+
+  openItem(itemId: string) {
+    this.service.setSelectedItem(itemId);
   }
 }

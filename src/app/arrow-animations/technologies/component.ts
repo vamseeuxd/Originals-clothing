@@ -15,6 +15,7 @@ export class TechnologyComponent {
   newItem: ITechnology = NewEmptyItem;
   itemToEdit: ITechnology = null;
   isBackEndCallInProgress = false;
+  searchText = '';
 
   constructor(
     public service: Service,

@@ -17,7 +17,7 @@ export class Service {
   private activeUser: string;
 
 
-  private selectedItemId = '1BTyLyzxuGgGF58CejlN';
+  private selectedItemId = '';
   private selectedItemId$ = new BehaviorSubject<string>(this.selectedItemId);
   private selectedTechnologiesBusyIndicatorId: number;
 

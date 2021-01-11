@@ -21,6 +21,8 @@ export const ModuleConfig = {
 
 export interface IStudent {
   name: string
+  mobile: string
+  email: string
   id?: string
   deleted?: boolean
   createdOn?: string
@@ -29,13 +31,8 @@ export interface IStudent {
   updatedBy?: string
 }
 
-export const NewEmptyItem = {
-  "id": "",
+export const NewEmptyItem: IStudent = {
   "name": "",
-  "endDate": "",
-  "timings": "",
-  "updatedBy": "",
-  "demoDate": "",
-  "durationInHours": null,
-  "startDate": "",
+  "mobile": "",
+  "email": "",
 };

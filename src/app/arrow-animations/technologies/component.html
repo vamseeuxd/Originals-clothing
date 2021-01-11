@@ -2,14 +2,17 @@
   <ng-container *ngIf="service.getSelectedItemId() | async as selectedItemId">
       <ng-container *ngIf="service.getSelectedBatches() | async as selectedBatches">
         <div class="container-fluid">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light border">
             <a class="navbar-brand">Manage {{moduleNamePlural}}</a>
             <button class="btn-outline-secondary btn ml-auto" type="button" (click)="manageItemModal.show()">
               Add {{moduleName}}
             </button>
           </nav>
           <ul class="list-group mt-1 col-md-12 px-0">
-            <li *ngFor="let item of items" class="list-group-item">
+            <li class="list-group-item">
+              <input [(ngModel)]="searchText" class="form-control mr-sm-2" type="text" placeholder="Search Technology">
+            </li>
+            <li *ngFor="let item of items | filterBy: ['name']: searchText" class="list-group-item">
               <h5 class="m-0">
                 {{item.name}}
                 <div class="float-right">
@@ -26,14 +29,14 @@
                     <!--<pre>{{selectedBatches | json}}</pre>-->
                   <h6 *ngIf="selectedBatches.length > 1" class="text-muted">This Technology is Scheduled in below Batches</h6>
                   <h6 *ngIf="selectedBatches.length == 0" class="text-muted">This Technology is not Scheduled in any Batch</h6>
-                  <h6 *ngIf="selectedBatches.length == 1" class="text-muted">This Technology is Schedule in belw Batch</h6>
+                  <h6 *ngIf="selectedBatches.length == 1" class="text-muted">This Technology is Schedule in below Batch</h6>
                   <ul class="list-group">
                     <li *ngFor="let batch of selectedBatches" class="list-group-item">
                       {{batch.name}}
                     </li>
                   </ul>
                 </tab>
-                <tab heading="Artical / Topics" class="p-3 border border-top-0">Fees</tab>
+                <tab heading="Article / Topics" class="p-3 border border-top-0">Article / Topics</tab>
               </tabset>
             </li>
 

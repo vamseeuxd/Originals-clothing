@@ -5,7 +5,7 @@
         <ng-container *ngIf="service.getSelectedStudent() | async as selectedStudents">
           <ng-container *ngIf="studentsService.getData() | async as availableStudents">
             <div class="container-fluid">
-              <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <nav class="navbar navbar-expand-lg navbar-light bg-light border">
                 <a class="navbar-brand">Manage {{moduleNamePlural}}</a>
                 <button class="btn-outline-secondary btn ml-auto" type="button" (click)="manageItemModal.show()">
                   Add {{moduleName}}
@@ -30,7 +30,7 @@
                       <tab heading="Basic Info" class="p-3 border border-top-0">
                         <ul class="list-group">
                           <li class="list-group-item">
-                            <div class="row">
+                            <div class="row px-2">
                               <div class="col-md-6 border pt-2 pb-2">Name :  {{item.name}}</div>
                               <div class="col-md-6 border pt-2 pb-2">Time :  {{item.time}}</div>
                               <div class="col-md-6 border pt-2 pb-2">Start Date :  {{item.startDate}}</div>
@@ -38,27 +38,28 @@
                             </div>
                           </li>
                           <li class="list-group-item">
+                            <h5>Classes on Every Week on : </h5>
                             <div class="btn-group w-100 d-flex flex-wrap">
                               <label [class.btn-outline-secondary]="!item.sunDay" [class.btn-outline-primary]="item.sunDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="sunDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.sunDay" [class.fa-square-o]="!item.sunDay"></i> SUN DAY {{item.sunDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.sunDay" [class.fa-square-o]="!item.sunDay"></i> SUN DAY
                               </label>
                               <label [class.btn-outline-secondary]="!item.monDay" [class.btn-outline-primary]="item.monDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="monDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.monDay" [class.fa-square-o]="!item.monDay"></i> MON DAY {{item.monDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.monDay" [class.fa-square-o]="!item.monDay"></i> MON DAY
                               </label>
                               <label [class.btn-outline-secondary]="!item.tuesDay" [class.btn-outline-primary]="item.tuesDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="tuesDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.tuesDay" [class.fa-square-o]="!item.tuesDay"></i> TUE DAY {{item.tuesDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.tuesDay" [class.fa-square-o]="!item.tuesDay"></i> TUE DAY
                               </label>
                               <label [class.btn-outline-secondary]="!item.wenDay" [class.btn-outline-primary]="item.wenDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="wenDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.wenDay" [class.fa-square-o]="!item.wenDay"></i> WEN DAY {{item.wenDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.wenDay" [class.fa-square-o]="!item.wenDay"></i> WEN DAY
                               </label>
                               <label [class.btn-outline-secondary]="!item.thuDay" [class.btn-outline-primary]="item.thuDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="thuDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.thuDay" [class.fa-square-o]="!item.thuDay"></i> THU DAY {{item.thuDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.thuDay" [class.fa-square-o]="!item.thuDay"></i> THU DAY
                               </label>
                               <label [class.btn-outline-secondary]="!item.friDay" [class.btn-outline-primary]="item.friDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="friDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.friDay" [class.fa-square-o]="!item.friDay"></i> FRI DAY {{item.friDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.friDay" [class.fa-square-o]="!item.friDay"></i> FRI DAY
                               </label>
                               <label [class.btn-outline-secondary]="!item.satDay" [class.btn-outline-primary]="item.satDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="satDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.satDay" [class.fa-square-o]="!item.satDay"></i> SAT DAY {{item.satDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.satDay" [class.fa-square-o]="!item.satDay"></i> SAT DAY
                               </label>
                             </div>
                           </li>
