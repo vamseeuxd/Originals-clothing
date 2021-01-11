@@ -1,33 +1,94 @@
 import {Injectable} from '@angular/core'
-import {Observable} from 'rxjs'
+import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs'
 import {AngularFirestore, AngularFirestoreCollection,} from '@angular/fire/firestore'
 import {BusyIndicatorService} from '../../../components/busy-indicator/busy-indicator.service';
 import firebase from 'firebase';
 import {UsersService} from '../../../pages/users/service/users.service';
 import {ITechnology, ModuleConfig} from '../ModuleConfig';
-import {map, shareReplay} from 'rxjs/operators';
+import {map, mergeMap, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {IBatch, IBatchTechnology} from '../../batches/ModuleConfig';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Service {
   private action: AngularFirestoreCollection<ITechnology>
-  readonly data$: Observable<ITechnology[]>
+  private data$: Observable<ITechnology[]>
   private activeUser: string;
+
+
+  private selectedItemId = '1BTyLyzxuGgGF58CejlN';
+  private selectedItemId$ = new BehaviorSubject<string>(this.selectedItemId);
+  private selectedTechnologiesBusyIndicatorId: number;
+
+  private batchesAction: AngularFirestoreCollection<IBatchTechnology>;
+  private selectedBatches$: Observable<IBatch[]>;
+
+
   constructor(
-    firestore: AngularFirestore,
+    private firestore: AngularFirestore,
     private usersService: UsersService,
     public busyIndicator: BusyIndicatorService
   ) {
-    this.action = firestore.collection<ITechnology>(ModuleConfig.name_lowercase_plural)
-    this.data$ = firestore
+    this.technologyDataInit();
+    this.batchDataInit();
+  }
+
+  technologyDataInit() {
+    this.action = this.firestore.collection<ITechnology>(ModuleConfig.name_lowercase_plural);
+    this.data$ = this.firestore
       .collection<ITechnology>(ModuleConfig.name_lowercase_plural, (ref) => {
         return ref.where('deleted', '==', false).orderBy('createdOn')
       })
-      .valueChanges()
+      .valueChanges();
     this.usersService.activeUser$.subscribe((activeUser) => {
       this.activeUser = activeUser
-    })
+    });
+  }
+
+  batchDataInit() {
+    this.batchesAction = this.firestore.collection<IBatchTechnology>('batches-technologies');
+    this.selectedBatches$ = this.selectedItemId$.pipe(
+      switchMap(selectedTechnology => {
+          return this.firestore.collection<IBatchTechnology>(
+            'batches-technologies',
+            ref =>
+              ref
+                .where('deleted', '==', false)
+                .where('technologyId', '==', selectedTechnology)
+                .orderBy('createdOn')
+          ).valueChanges().pipe(mergeMap(value => {
+              if (value.length === 0) {
+                return of([])
+              }
+              return combineLatest(value.map(
+                value1 => {
+                  return this.firestore.doc<IBatch>(`batches/${value1.batchId}`).valueChanges().pipe(
+                    switchMap(
+                      value2 => {
+                        value2['batches-technologies'] = value1.id;
+                        return of(value2);
+                      }
+                    )
+                  )
+                }
+              ));
+            })
+          )
+        }
+      ),
+      tap(x => {
+        if (this.selectedTechnologiesBusyIndicatorId) {
+          this.busyIndicator.hide(this.selectedTechnologiesBusyIndicatorId);
+        }
+      })
+    ).pipe(shareReplay())
+  }
+
+  getSelectedBatches(): Observable<IBatch[]> {
+    return this.selectedBatches$.pipe(
+      map(x => x ? x : [])
+    )
   }
 
   addData(data: ITechnology): Promise<any> {
@@ -115,5 +176,25 @@ export class Service {
 
   getServerTime(): any {
     return firebase.firestore.Timestamp.now().seconds * 1000
+  }
+
+
+  getSelectedItemId(): Observable<string> {
+    return this.selectedItemId$.pipe(
+      map(x => x ? x : 'none')
+    )
+  }
+
+  setSelectedItem(technologyId) {
+    if (this.selectedItemId !== technologyId) {
+      if (technologyId) {
+        this.selectedTechnologiesBusyIndicatorId = this.busyIndicator.show();
+        this.selectedItemId = technologyId;
+        this.selectedItemId$.next(this.selectedItemId);
+      } else {
+        this.selectedItemId = technologyId;
+        this.selectedItemId$.next(this.selectedItemId);
+      }
+    }
   }
 }

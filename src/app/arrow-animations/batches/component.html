@@ -40,25 +40,25 @@
                           <li class="list-group-item">
                             <div class="btn-group w-100 d-flex flex-wrap">
                               <label [class.btn-outline-secondary]="!item.sunDay" [class.btn-outline-primary]="item.sunDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="sunDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.sunDay" [class.fa-square-o]="!item.sunDay"></i> SUN {{item.sunDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.sunDay" [class.fa-square-o]="!item.sunDay"></i> SUN DAY {{item.sunDay}}
                               </label>
                               <label [class.btn-outline-secondary]="!item.monDay" [class.btn-outline-primary]="item.monDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="monDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.monDay" [class.fa-square-o]="!item.monDay"></i> MON {{item.monDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.monDay" [class.fa-square-o]="!item.monDay"></i> MON DAY {{item.monDay}}
                               </label>
                               <label [class.btn-outline-secondary]="!item.tuesDay" [class.btn-outline-primary]="item.tuesDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="tuesDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.tuesDay" [class.fa-square-o]="!item.tuesDay"></i> TUE {{item.tuesDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.tuesDay" [class.fa-square-o]="!item.tuesDay"></i> TUE DAY {{item.tuesDay}}
                               </label>
                               <label [class.btn-outline-secondary]="!item.wenDay" [class.btn-outline-primary]="item.wenDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="wenDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.wenDay" [class.fa-square-o]="!item.wenDay"></i> WEN {{item.wenDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.wenDay" [class.fa-square-o]="!item.wenDay"></i> WEN DAY {{item.wenDay}}
                               </label>
                               <label [class.btn-outline-secondary]="!item.thuDay" [class.btn-outline-primary]="item.thuDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="thuDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.thuDay" [class.fa-square-o]="!item.thuDay"></i> THU {{item.thuDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.thuDay" [class.fa-square-o]="!item.thuDay"></i> THU DAY {{item.thuDay}}
                               </label>
                               <label [class.btn-outline-secondary]="!item.friDay" [class.btn-outline-primary]="item.friDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="friDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.friDay" [class.fa-square-o]="!item.friDay"></i> FRI {{item.friDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.friDay" [class.fa-square-o]="!item.friDay"></i> FRI DAY {{item.friDay}}
                               </label>
                               <label [class.btn-outline-secondary]="!item.satDay" [class.btn-outline-primary]="item.satDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="satDay">
-                                <i class="fa"  [class.fa-check-square-o]="item.satDay" [class.fa-square-o]="!item.satDay"></i> SAT {{item.satDay}}
+                                <i class="fa"  [class.fa-check-square-o]="item.satDay" [class.fa-square-o]="!item.satDay"></i> SAT DAY {{item.satDay}}
                               </label>
                             </div>
                           </li>
@@ -106,26 +106,26 @@
                       <div class="form-group">
                         <label>{{moduleName}} Classes on Every Week on<code>*</code></label>
                         <div class="btn-group w-100 d-flex flex-wrap flex-row">
-                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.sunDay" btnCheckbox name="sunDay">
-                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.sunDay" [class.fa-square-o]="!newItemForm.value?.sunDay"></i> SUN
+                          <label class="btn btn-outline-primary flex-fill border" [ngModel]="newItem.sunDay" btnCheckbox name="sunDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.sunDay" [class.fa-square-o]="!newItemForm.value?.sunDay"></i> SUN DAY
                           </label>
-                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.monDay" btnCheckbox name="monDay">
-                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.monDay" [class.fa-square-o]="!newItemForm.value?.monDay"></i> MON
+                          <label class="btn btn-outline-primary flex-fill border" [ngModel]="newItem.monDay" btnCheckbox name="monDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.monDay" [class.fa-square-o]="!newItemForm.value?.monDay"></i> MON DAY
                           </label>
-                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.tuesDay" btnCheckbox name="tuesDay">
-                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.tuesDay" [class.fa-square-o]="!newItemForm.value?.tuesDay"></i> TUE
+                          <label class="btn btn-outline-primary flex-fill border" [ngModel]="newItem.tuesDay" btnCheckbox name="tuesDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.tuesDay" [class.fa-square-o]="!newItemForm.value?.tuesDay"></i> TUE DAY
                           </label>
-                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.wenDay" btnCheckbox name="wenDay">
-                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.wenDay" [class.fa-square-o]="!newItemForm.value?.wenDay"></i> WEN
+                          <label class="btn btn-outline-primary flex-fill border" [ngModel]="newItem.wenDay" btnCheckbox name="wenDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.wenDay" [class.fa-square-o]="!newItemForm.value?.wenDay"></i> WEN DAY
                           </label>
-                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.thuDay" btnCheckbox name="thuDay">
-                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.thuDay" [class.fa-square-o]="!newItemForm.value?.thuDay"></i> THU
+                          <label class="btn btn-outline-primary flex-fill border" [ngModel]="newItem.thuDay" btnCheckbox name="thuDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.thuDay" [class.fa-square-o]="!newItemForm.value?.thuDay"></i> THU DAY
                           </label>
-                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.friDay" btnCheckbox name="friDay">
-                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.friDay" [class.fa-square-o]="!newItemForm.value?.friDay"></i> FRI
+                          <label class="btn btn-outline-primary flex-fill border" [ngModel]="newItem.friDay" btnCheckbox name="friDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.friDay" [class.fa-square-o]="!newItemForm.value?.friDay"></i> FRI DAY
                           </label>
-                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.satDay" btnCheckbox name="satDay">
-                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.satDay" [class.fa-square-o]="!newItemForm.value?.satDay"></i> SAT
+                          <label class="btn btn-outline-primary flex-fill border" [ngModel]="newItem.satDay" btnCheckbox name="satDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.satDay" [class.fa-square-o]="!newItemForm.value?.satDay"></i> SAT DAY
                           </label>
                         </div>
                         <small class="form-text">Every Week on which days {{moduleName}} Classes will conducted.</small>
@@ -167,7 +167,9 @@
 
             <!------------------------------------------- *Manage Technologies Template* ------------------------------------------->
             <ng-template #manageTechnologies let-batchId='batchId'>
-              <h4>Technologies</h4>
+              <h6 *ngIf="selectedTechnologies.length > 1" class="text-muted">Below Technologies are Schedule in this Batch</h6>
+              <h6 *ngIf="selectedTechnologies.length == 0" class="text-muted">No Technologies are Schedule in this Batch</h6>
+              <h6 *ngIf="selectedTechnologies.length == 1" class="text-muted">Below Technology is Schedule in this Batch</h6>
                 <ul class="list-group">
                   <li class="list-group-item">
                     <div class="input-group mb-3">
@@ -187,7 +189,8 @@
                       </div>
                     </div>
                   </li>
-                  <li class="list-group-item disabled border-light text-muted text-center" *ngIf="selectedTechnologies.length == 0">No Technologies are added</li>
+                  <li class="list-group-item disabled border-light text-muted text-center" *ngIf="selectedTechnologies.length == 0">
+                    No Technologies are added</li>
                   <li *ngFor="let technology of selectedTechnologies" class="list-group-item">
                     {{technology.name}}
                     <div class="float-right">

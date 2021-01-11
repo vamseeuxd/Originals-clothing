@@ -16,17 +16,17 @@ import {IStudent} from '../../students/ModuleConfig';
 export class Service {
   private action: AngularFirestoreCollection<IBatch>;
   private data$: Observable<IBatch[]>;
-  private selectedItemId = 'K0cUTf3ZHePirnXF6VhM';
+  private selectedItemId = '';
   private selectedItemId$ = new BehaviorSubject<string>(this.selectedItemId);
 
   private technologiesAction: AngularFirestoreCollection<IBatchTechnology>;
   private selectedTechnologies$: Observable<ITechnology[]>;
+  private selectedBatchBusyIndicatorId: number;
 
   private studentsAction: AngularFirestoreCollection<IBatchStudent>;
   private selectedStudents$: Observable<IStudent[]>;
 
   private activeUser: string;
-  private selectedBatchBusyIndicatorId: number;
 
   constructor(
     private firestore: AngularFirestore,

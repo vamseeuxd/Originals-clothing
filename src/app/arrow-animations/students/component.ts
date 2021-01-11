@@ -14,7 +14,7 @@ export class StudentsComponent {
   moduleNamePlural = ModuleConfig.name_capitalize_plural;
   newItem: IStudent = NewEmptyItem;
   itemToEdit: IStudent = null;
-  itemToOpen: IStudent = null;
+  itemToOpen: string;
   isBackEndCallInProgress = false;
 
   constructor(

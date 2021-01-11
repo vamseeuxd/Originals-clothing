@@ -1,87 +1,83 @@
 <ng-container *ngIf="service.getData() | async as items">
-  <div class="container-fluid">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand">Manage {{moduleNamePlural}}</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item button-mode">
-            <a class="nav-link" (click)="manageItemModal.show()">Add {{moduleName}}</a>
-          </li>
-        </ul>
-        <form class="form-inline ml-auto">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search">
-        </form>
-      </div>
-    </nav>
-
-
-    <ul class="list-group mt-1 col-md-12 px-0">
-      <li *ngFor="let item of items" class="list-group-item">
-        <h5 class="m-0">
-          {{item.name}}
-          <div class="float-right">
-            <button (click)="deleteItem(item)" type="button" class="btn btn-outline-danger btn-sm mr-2"><i class="fa fa-trash"></i></button>
-            <button (click)="itemToEdit = item;newItem = item;manageItemModal.show()" type="button" class="btn btn-outline-warning btn-sm mr-2"><i class="fa fa-edit"></i></button>
-            <button (click)="itemToOpen = (itemToOpen == item.id ? null : item.id);" type="button"
-                    class="btn btn-outline-primary btn-sm mr-2">
-              <i class="fa" [class.fa-folder-open-o]="itemToOpen == item.id" [class.fa-folder-o]="itemToOpen != item"></i>
+  <ng-container *ngIf="service.getSelectedItemId() | async as selectedItemId">
+      <ng-container *ngIf="service.getSelectedBatches() | async as selectedBatches">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand">Manage {{moduleNamePlural}}</a>
+            <button class="btn-outline-secondary btn ml-auto" type="button" (click)="manageItemModal.show()">
+              Add {{moduleName}}
             </button>
+          </nav>
+          <ul class="list-group mt-1 col-md-12 px-0">
+            <li *ngFor="let item of items" class="list-group-item">
+              <h5 class="m-0">
+                {{item.name}}
+                <div class="float-right">
+                  <button (click)="deleteItem(item)" type="button" class="btn btn-outline-danger btn-sm mr-2"><i class="fa fa-trash"></i></button>
+                  <button (click)="itemToEdit = item;newItem = item;manageItemModal.show()" type="button" class="btn btn-outline-warning btn-sm mr-2"><i class="fa fa-edit"></i></button>
+                  <button (click)="openItem(selectedItemId == item.id ? '' : item.id)" type="button" class="btn btn-outline-primary btn-sm mr-2">
+                    <i class="fa" [class.fa-folder-open-o]="selectedItemId == item.id" [class.fa-folder-o]="selectedItemId != item"></i>
+                  </button>
+                </div>
+              </h5>
+              <tabset *ngIf="selectedItemId == item.id" class="m-3">
+                <tab heading="Basic Info" class="p-3 border border-top-0">Basic content 0</tab>
+                <tab heading="Batches" [active]="true" class="p-3 border border-top-0">
+                    <!--<pre>{{selectedBatches | json}}</pre>-->
+                  <h6 *ngIf="selectedBatches.length > 1" class="text-muted">This Technology is Scheduled in below Batches</h6>
+                  <h6 *ngIf="selectedBatches.length == 0" class="text-muted">This Technology is not Scheduled in any Batch</h6>
+                  <h6 *ngIf="selectedBatches.length == 1" class="text-muted">This Technology is Schedule in belw Batch</h6>
+                  <ul class="list-group">
+                    <li *ngFor="let batch of selectedBatches" class="list-group-item">
+                      {{batch.name}}
+                    </li>
+                  </ul>
+                </tab>
+                <tab heading="Artical / Topics" class="p-3 border border-top-0">Fees</tab>
+              </tabset>
+            </li>
+
+          </ul>
+        </div>
+        <div class="modal fade" bsModal #manageItemModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1">
+          <div class="modal-dialog modal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 *ngIf="!itemToEdit" class="modal-title pull-left">Add New {{moduleName}}</h4>
+                <h4 *ngIf="itemToEdit" class="modal-title pull-left">Update {{moduleName}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="manageItemModal.hide();resetModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <form #newItemForm="ngForm" class="w-100">
+
+                  <div class="form-group">
+                    <label>{{moduleName}} Name <code>*</code></label>
+                    <input #itemName autocomplete="off" name="name" minlength="3" required autofocus
+                           [class.is-invalid]="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : '')) && !isBackEndCallInProgress"
+                           [ngModel]="newItem.name" type="text" class="form-control">
+                    <small [class.invalid-feedback]="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : '')) && !isBackEndCallInProgress"
+                           class="form-text">Provide valid {{moduleName}} Name with minimum 3 character and should be unique.</small>
+                  </div>
+                  <ng-container *ngIf="!isBackEndCallInProgress">
+                      <div class="alert alert-danger" role="alert" *ngIf="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : ''))">Duplicate {{moduleName}} names are not allowed</div>
+                  </ng-container>
+
+                  <div class="text-right">
+                    <button (click)="itemToEdit ? updateItem(newItemForm,manageItemModal) : addItem(newItemForm,manageItemModal)"
+                            [disabled]="newItemForm.invalid || isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : ''))"
+                            class="btn btn-primary btn-sm">{{itemToEdit ? 'Update' : 'Add'}} {{moduleName}}
+                    </button>
+                  </div>
+                </form>
+
+
+              </div>
+            </div>
           </div>
-        </h5>
-        <tabset *ngIf="itemToOpen == item.id" class="m-3">
-          <tab heading="Basic Info" class="p-3 border border-top-0">Basic content 0</tab>
-          <tab heading="Batches" class="p-3 border border-top-0">Batches</tab>
-          <tab heading="Fees" class="p-3 border border-top-0">Fees</tab>
-        </tabset>
-      </li>
-
-    </ul>
-  </div>
-
-
-  <div class="modal fade" bsModal #manageItemModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 *ngIf="!itemToEdit" class="modal-title pull-left">Add New {{moduleName}}</h4>
-          <h4 *ngIf="itemToEdit" class="modal-title pull-left">Update {{moduleName}}</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="manageItemModal.hide();resetModal()">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
-        <div class="modal-body">
-
-          <form #newItemForm="ngForm" class="w-100">
-
-            <div class="form-group">
-              <label>{{moduleName}} Name <code>*</code></label>
-              <input #itemName autocomplete="off" name="name" minlength="3" required autofocus
-                     [class.is-invalid]="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : '')) && !isBackEndCallInProgress"
-                     [ngModel]="newItem.name" type="text" class="form-control">
-              <small [class.invalid-feedback]="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : '')) && !isBackEndCallInProgress"
-                     class="form-text">Provide valid {{moduleName}} Name with minimum 3 character and should be unique.</small>
-            </div>
-            <ng-container *ngIf="!isBackEndCallInProgress">
-                <div class="alert alert-danger" role="alert" *ngIf="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : ''))">Duplicate {{moduleName}} names are not allowed</div>
-            </ng-container>
-
-            <div class="text-right">
-              <button (click)="itemToEdit ? updateItem(newItemForm,manageItemModal) : addItem(newItemForm,manageItemModal)"
-                      [disabled]="newItemForm.invalid || isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : ''))"
-                      class="btn btn-primary btn-sm">{{itemToEdit ? 'Update' : 'Add'}} {{moduleName}}
-              </button>
-            </div>
-          </form>
-
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-
+      </ng-container>
+  </ng-container>
 </ng-container>

@@ -14,7 +14,6 @@ export class TechnologyComponent {
   moduleNamePlural = ModuleConfig.name_capitalize_plural;
   newItem: ITechnology = NewEmptyItem;
   itemToEdit: ITechnology = null;
-  itemToOpen: ITechnology = null;
   isBackEndCallInProgress = false;
 
   constructor(
@@ -78,5 +77,9 @@ export class TechnologyComponent {
   resetModal() {
     this.itemToEdit = null;
     this.newItem = NewEmptyItem;
+  }
+
+  openItem(itemId: string) {
+    this.service.setSelectedItem(itemId);
   }
 }
