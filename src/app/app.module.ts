@@ -34,10 +34,14 @@ import {HttpClientModule} from '@angular/common/http';
 import {NgPipesModule} from 'ngx-pipes';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import {BatchesComponent} from './arrow-animations/batches/batches.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import { DashboardComponent } from './arrow-animations/dashboard/dashboard.component';
 import {StudentsComponent} from './arrow-animations/students/component';
+import {TechnologyComponent} from './arrow-animations/technologies/component';
+import {BatchComponent} from './arrow-animations/batches/component';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
   declarations: [
@@ -56,8 +60,9 @@ import {StudentsComponent} from './arrow-animations/students/component';
     WaistRiseComponent,
     GenderComponent,
     UsersComponent,
-    BatchesComponent,
+    BatchComponent,
     StudentsComponent,
+    TechnologyComponent,
     DashboardComponent,
   ],
   imports: [
@@ -73,6 +78,9 @@ import {StudentsComponent} from './arrow-animations/students/component';
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
+    TypeaheadModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ButtonsModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
   ],

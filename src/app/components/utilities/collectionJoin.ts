@@ -1,11 +1,14 @@
-import { combineLatest, pipe, of, defer } from 'rxjs'
-import { map, switchMap, tap } from 'rxjs/operators'
-import { AngularFirestore } from '@angular/fire/firestore'
+import {combineLatest, pipe, of, defer} from 'rxjs'
+import {map, switchMap, tap} from 'rxjs/operators'
+import {AngularFirestore} from '@angular/fire/firestore'
 
+/*
+* Example : this.technologiesData$.pipe( leftJoin(firestore,'id','batchId','batches') )
+* */
 export const leftJoin = (
   afs: AngularFirestore,
   leftField,
-  rightField,
+  sourceItemField,
   collection,
   limit = 100
 ) => {
@@ -27,10 +30,10 @@ export const leftJoin = (
           for (const doc of collectionData) {
             // Push doc read to Array
 
-            if (doc[rightField]) {
+            if (doc[sourceItemField]) {
               // Perform query on join key, with optional limit
               const q = (ref) =>
-                ref.where(leftField, '==', doc[rightField]).limit(limit)
+                ref.where(leftField, '==', doc[sourceItemField]).limit(limit)
               reads$.push(afs.collection(collection, q).valueChanges())
             } else {
               reads$.push(of([]))
@@ -42,7 +45,7 @@ export const leftJoin = (
         map((joins) => {
           return collectionData.map((v, i) => {
             totalJoins += joins[i].length
-            return { ...v, [collection]: joins[i] || null }
+            return {...v, [collection]: joins[i] || null}
           })
         }),
         tap((final) => {
@@ -91,7 +94,7 @@ export const leftJoinDocument = (afs: AngularFirestore, field, collection) => {
         map((joins) => {
           return collectionData.map((v, i) => {
             const joinIdx = cache.get(v[field])
-            return { ...v, [field]: joins[joinIdx] || null }
+            return {...v, [field]: joins[joinIdx] || null}
           })
         }),
         tap((final) =>
@@ -99,6 +102,65 @@ export const leftJoinDocument = (afs: AngularFirestore, field, collection) => {
             `Queried ${(final as any).length}, Joined ${cache.size} docs`
           )
         )
+      )
+    })
+}
+
+
+export const mapRelationalData = (
+  afs: AngularFirestore,
+  relationSourceColumn,
+  sourceColumn,
+  relationshipCollection,
+  collection,
+  relationDependentColumn,
+  destinationColumn,
+  limit = 100
+) => {
+  return (source) =>
+    defer(() => {
+      // Operator state
+      let collectionData;
+      let subCollectionData;
+
+      // Track total num of joined doc reads
+      let totalJoins = 0
+      return source.pipe(
+        switchMap((data) => {
+          // Clear mapping on each emitted val ;
+
+          // Save the parent data state
+          collectionData = data as any[]
+
+          const reads$ = []
+          for (const doc of collectionData) {
+            // Push doc read to Array
+
+            if (doc[sourceColumn]) {
+              // Perform query on join key, with optional limit
+              const q = (ref) => ref.where(relationSourceColumn, '==', doc[sourceColumn]).limit(limit);
+              reads$.push(afs.collection(relationshipCollection, q).valueChanges());
+            } else {
+              reads$.push(of([]))
+            }
+          }
+          return combineLatest(reads$);
+        }),
+        map((joins) => {
+          return collectionData.map((v, i) => {
+            return {...v, [collection]: joins[i].map(d=>d[relationDependentColumn]) || null}
+          })
+        }),
+        map((data) => {
+          debugger;
+          return data;
+        }),
+        tap((final) => {
+          console.log(
+            `Queried ${(final as any).length}, Joined ${totalJoins} docs`
+          )
+          totalJoins = 0
+        })
       )
     })
 }

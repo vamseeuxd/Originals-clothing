@@ -2,19 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {Service} from './service/service';
 import {ToastrService} from 'ngx-toastr';
 import {NgForm} from '@angular/forms';
-import {IStudent, ModuleConfig, NewEmptyItem} from './ModuleConfig';
+import {ITechnology, ModuleConfig, NewEmptyItem} from './ModuleConfig';
 
 @Component({
   selector: `app-${ModuleConfig.name_lowercase_plural}`,
   templateUrl: './component.html',
   styleUrls: ['./component.scss']
 })
-export class StudentsComponent {
+export class TechnologyComponent {
   moduleName = ModuleConfig.name_capitalize;
   moduleNamePlural = ModuleConfig.name_capitalize_plural;
-  newItem: IStudent = NewEmptyItem;
-  itemToEdit: IStudent = null;
-  itemToOpen: IStudent = null;
+  newItem: ITechnology = NewEmptyItem;
+  itemToEdit: ITechnology = null;
+  itemToOpen: ITechnology = null;
   isBackEndCallInProgress = false;
 
   constructor(
@@ -23,7 +23,7 @@ export class StudentsComponent {
   ) {
   }
 
-  isDuplicateName(items: IStudent[], itemName, ignoreValue = ''): boolean {
+  isDuplicateName(items: ITechnology[], itemName, ignoreValue = ''): boolean {
     return items.map(d => d.name.toLowerCase().trim())
       .filter(d => d.toLowerCase().trim() != ignoreValue.toLowerCase().trim())
       .includes(itemName.toLowerCase().trim());
@@ -43,7 +43,7 @@ export class StudentsComponent {
     })
   }
 
-  deleteItem(item: IStudent) {
+  deleteItem(item: ITechnology) {
     this.isBackEndCallInProgress = true;
     const isConfirmed = confirm(`Are you sure do you want to delete ${this.moduleName}?`);
     if (isConfirmed) {

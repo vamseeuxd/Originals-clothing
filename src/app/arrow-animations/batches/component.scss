@@ -1,0 +1,22 @@
+:host {
+  .available-technologies-typeahead {
+    ::ng-deep .dropdown {
+      width: 100%;
+      padding: 0;
+
+      button {
+        border-top: 1px solid #d0d6db;
+      }
+    }
+  }
+  .available-students-typeahead {
+    ::ng-deep .dropdown {
+      width: 100%;
+      padding: 0;
+
+      button {
+        border-top: 1px solid #d0d6db;
+      }
+    }
+  }
+}

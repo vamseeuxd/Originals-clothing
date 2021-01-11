@@ -1,0 +1,245 @@
+<ng-container *ngIf="service.getData() | async as items">
+  <ng-container *ngIf="service.getSelectedItemId() | async as selectedItemId">
+    <ng-container *ngIf="service.getSelectedTechnologies() | async as selectedTechnologies">
+      <ng-container *ngIf="technologiesService.getData() | async as availableTechnologies">
+        <ng-container *ngIf="service.getSelectedStudent() | async as selectedStudents">
+          <ng-container *ngIf="studentsService.getData() | async as availableStudents">
+            <div class="container-fluid">
+              <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand">Manage {{moduleNamePlural}}</a>
+                <button class="btn-outline-secondary btn ml-auto" type="button" (click)="manageItemModal.show()">
+                  Add {{moduleName}}
+                </button>
+              </nav>
+              <ul class="list-group mt-1 col-md-12 px-0">
+                <li class="list-group-item">
+                  <input [(ngModel)]="searchText" class="form-control mr-sm-2" type="text" placeholder="Search Batch">
+                </li>
+                <li *ngFor="let item of items | filterBy: ['name']: searchText" class="list-group-item">
+                  <h5 class="m-0">
+                    {{item.name}}
+                    <div class="float-right">
+                      <button (click)="deleteItem(item)" type="button" class="btn btn-outline-danger btn-sm mr-2"><i class="fa fa-trash"></i></button>
+                      <button (click)="itemToEdit = item;newItem = item;manageItemModal.show()" type="button" class="btn btn-outline-warning btn-sm mr-2"><i class="fa fa-edit"></i></button>
+                      <button (click)="openItem(selectedItemId == item.id ? '' : item.id)" type="button"class="btn btn-outline-primary btn-sm mr-2">
+                        <i class="fa" [class.fa-folder-open-o]="selectedItemId == item.id" [class.fa-folder-o]="selectedItemId != item"></i>
+                      </button>
+                    </div>
+                  </h5>
+                  <tabset *ngIf="selectedItemId == item.id" class="m-3">
+                      <tab heading="Basic Info" class="p-3 border border-top-0">
+                        <ul class="list-group">
+                          <li class="list-group-item">
+                            <div class="row">
+                              <div class="col-md-6 border pt-2 pb-2">Name :  {{item.name}}</div>
+                              <div class="col-md-6 border pt-2 pb-2">Time :  {{item.time}}</div>
+                              <div class="col-md-6 border pt-2 pb-2">Start Date :  {{item.startDate}}</div>
+                              <div class="col-md-6 border pt-2 pb-2">Fees :  {{item.fees}}</div>
+                            </div>
+                          </li>
+                          <li class="list-group-item">
+                            <div class="btn-group w-100 d-flex flex-wrap">
+                              <label [class.btn-outline-secondary]="!item.sunDay" [class.btn-outline-primary]="item.sunDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="sunDay">
+                                <i class="fa"  [class.fa-check-square-o]="item.sunDay" [class.fa-square-o]="!item.sunDay"></i> SUN {{item.sunDay}}
+                              </label>
+                              <label [class.btn-outline-secondary]="!item.monDay" [class.btn-outline-primary]="item.monDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="monDay">
+                                <i class="fa"  [class.fa-check-square-o]="item.monDay" [class.fa-square-o]="!item.monDay"></i> MON {{item.monDay}}
+                              </label>
+                              <label [class.btn-outline-secondary]="!item.tuesDay" [class.btn-outline-primary]="item.tuesDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="tuesDay">
+                                <i class="fa"  [class.fa-check-square-o]="item.tuesDay" [class.fa-square-o]="!item.tuesDay"></i> TUE {{item.tuesDay}}
+                              </label>
+                              <label [class.btn-outline-secondary]="!item.wenDay" [class.btn-outline-primary]="item.wenDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="wenDay">
+                                <i class="fa"  [class.fa-check-square-o]="item.wenDay" [class.fa-square-o]="!item.wenDay"></i> WEN {{item.wenDay}}
+                              </label>
+                              <label [class.btn-outline-secondary]="!item.thuDay" [class.btn-outline-primary]="item.thuDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="thuDay">
+                                <i class="fa"  [class.fa-check-square-o]="item.thuDay" [class.fa-square-o]="!item.thuDay"></i> THU {{item.thuDay}}
+                              </label>
+                              <label [class.btn-outline-secondary]="!item.friDay" [class.btn-outline-primary]="item.friDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="friDay">
+                                <i class="fa"  [class.fa-check-square-o]="item.friDay" [class.fa-square-o]="!item.friDay"></i> FRI {{item.friDay}}
+                              </label>
+                              <label [class.btn-outline-secondary]="!item.satDay" [class.btn-outline-primary]="item.satDay" class="btn disabled flex-fill mb-1" disabled btnCheckbox name="satDay">
+                                <i class="fa"  [class.fa-check-square-o]="item.satDay" [class.fa-square-o]="!item.satDay"></i> SAT {{item.satDay}}
+                              </label>
+                            </div>
+                          </li>
+                        </ul>
+                      </tab>
+                      <tab heading="Technologies" class="p-3 border border-top-0">
+                        <ng-container *ngTemplateOutlet="manageTechnologies; context: {batchId:item.id}"></ng-container>
+                      </tab>
+                      <tab heading="Students" class="p-3 border border-top-0">
+                        <ng-container *ngTemplateOutlet="manageStudents; context: {batchId:item.id}"></ng-container>
+                      </tab>
+                    </tabset>
+                </li>
+
+              </ul>
+            </div>
+
+            <!-------------------------------------------  ****Manage Batch Template**** ------------------------------------------->
+            <div class="modal fade" bsModal #manageItemModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1">
+              <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 *ngIf="!itemToEdit" class="modal-title pull-left">Add New {{moduleName}}</h4>
+                    <h4 *ngIf="itemToEdit" class="modal-title pull-left">Update {{moduleName}}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="manageItemModal.hide();resetModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form #newItemForm="ngForm" class="w-100">
+
+                      <div class="form-group">
+                        <label>{{moduleName}} Name <code>*</code></label>
+                        <input #itemName autocomplete="off" name="name" minlength="3" required autofocus [class.is-invalid]="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : '')) && !isBackEndCallInProgress" [ngModel]="newItem.name" type="text" class="form-control">
+                        <small [class.invalid-feedback]="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : '')) && !isBackEndCallInProgress" class="form-text">Provide valid {{moduleName}} Name with minimum 3 character and should be unique.</small>
+                      </div>
+
+                      <div class="form-group">
+                        <label>{{moduleName}} Start Date <code>*</code></label>
+                        <input autocomplete="off" name="startDate" required [ngModel]="newItem.startDate" type="date" class="form-control">
+                        <small class="form-text">Provide valid {{moduleName}} Start Date.</small>
+                      </div>
+
+                      <div class="form-group">
+                        <label>{{moduleName}} Classes on Every Week on<code>*</code></label>
+                        <div class="btn-group w-100 d-flex flex-wrap flex-row">
+                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.sunDay" btnCheckbox name="sunDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.sunDay" [class.fa-square-o]="!newItemForm.value?.sunDay"></i> SUN
+                          </label>
+                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.monDay" btnCheckbox name="monDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.monDay" [class.fa-square-o]="!newItemForm.value?.monDay"></i> MON
+                          </label>
+                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.tuesDay" btnCheckbox name="tuesDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.tuesDay" [class.fa-square-o]="!newItemForm.value?.tuesDay"></i> TUE
+                          </label>
+                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.wenDay" btnCheckbox name="wenDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.wenDay" [class.fa-square-o]="!newItemForm.value?.wenDay"></i> WEN
+                          </label>
+                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.thuDay" btnCheckbox name="thuDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.thuDay" [class.fa-square-o]="!newItemForm.value?.thuDay"></i> THU
+                          </label>
+                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.friDay" btnCheckbox name="friDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.friDay" [class.fa-square-o]="!newItemForm.value?.friDay"></i> FRI
+                          </label>
+                          <label class="btn btn-outline-primary flex-fill" [ngModel]="newItem.satDay" btnCheckbox name="satDay">
+                            <i class="fa"  [class.fa-check-square-o]="newItemForm.value?.satDay" [class.fa-square-o]="!newItemForm.value?.satDay"></i> SAT
+                          </label>
+                        </div>
+                        <small class="form-text">Every Week on which days {{moduleName}} Classes will conducted.</small>
+
+                      </div>
+
+                      <div class="form-group">
+                        <label>{{moduleName}} Class Time <code>*</code></label>
+                        <input autocomplete="off" name="time" required [ngModel]="newItem.time" type="time" class="form-control">
+                        <small class="form-text">Provide valid {{moduleName}} Class Time.</small>
+                      </div>
+
+                      <div class="form-group">
+                        <label>{{moduleName}} Fees Amount <code>*</code></label>
+                        <input autocomplete="off" name="fees" required [ngModel]="newItem.fees" type="number" class="form-control">
+                        <small class="form-text">Provide valid {{moduleName}} Fees Amount.</small>
+                      </div>
+
+
+                      <ng-container *ngIf="!isBackEndCallInProgress">
+                          <div class="alert alert-danger" role="alert" *ngIf="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : ''))">Duplicate {{moduleName}} names are not allowed</div>
+                      </ng-container>
+
+                      <div class="text-right">
+                        <button (click)="itemToEdit ? updateItem(newItemForm,manageItemModal) : addItem(newItemForm,manageItemModal)"
+                                [disabled]="newItemForm.invalid || isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : '')) || !(newItemForm.value.sunDay || newItemForm.value.monDay || newItemForm.value.tuesDay || newItemForm.value.wenDay || newItemForm.value.thuDay || newItemForm.value.friDay || newItemForm.value.satDay)"
+                                class="btn btn-primary btn-sm">{{itemToEdit ? 'Update' : 'Add'}} {{moduleName}}
+                        </button>
+                      </div>
+                      <!--<pre>{{newItemForm.value | json}}</pre>-->
+                    </form>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-------------------------------------------  ****Manage Batch Template**** ------------------------------------------->
+
+            <!------------------------------------------- *Manage Technologies Template* ------------------------------------------->
+            <ng-template #manageTechnologies let-batchId='batchId'>
+              <h4>Technologies</h4>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <div class="input-group mb-3">
+                      <div class="input-group-append w-100 available-technologies-typeahead">
+
+                        <input [(ngModel)]="selectedTechnologiesNameToAdd"
+                               [typeahead]="getTechnologiesWithOutSelected(availableTechnologies,selectedTechnologies)"
+                               typeaheadScrollable
+                               (input)="selectedTechnologiesIdToAdd='';selectedTechnologiesNameToAdd=''"
+                               placeholder="Enter Technology Name to Search"
+                               (typeaheadOnSelect)="selectedTechnologiesIdToAdd = $event.item.id"
+                               [typeaheadItemTemplate]="availableTechnologiesTypeaheadTemplate"
+                               typeaheadOptionField="name"
+                               class="form-control border-right-0">
+
+                        <button (click)="addTechnologyToBatch(batchId,selectedTechnologiesIdToAdd)" [disabled]="!selectedTechnologiesIdToAdd" class="btn-outline-secondary btn">Add</button>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item disabled border-light text-muted text-center" *ngIf="selectedTechnologies.length == 0">No Technologies are added</li>
+                  <li *ngFor="let technology of selectedTechnologies" class="list-group-item">
+                    {{technology.name}}
+                    <div class="float-right">
+                      <button (click)="deleteTechnologyFromBatch(technology)" type="button" class="btn btn-outline-danger btn-sm mr-2"><i class="fa fa-trash"></i></button>
+                    </div>
+                  </li>
+                </ul>
+            </ng-template>
+            <ng-template #availableTechnologiesTypeaheadTemplate let-model="item" let-index="index">
+              <p>{{model.name}}</p>
+            </ng-template>
+            <!------------------------------------------- *Manage Technologies Template*  ------------------------------------------->
+
+            <!------------------------------------------- ***Manage Students Template*** ------------------------------------------->
+            <ng-template #manageStudents let-batchId='batchId'>
+              <h4>Students</h4>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <div class="input-group mb-3">
+                    <div class="input-group-append w-100 available-students-typeahead">
+
+                      <input [(ngModel)]="selectedStudentNameToAdd"
+                             [typeahead]="getStudentsWithOutSelected(availableStudents,selectedStudents)"
+                             typeaheadScrollable
+                             (input)="selectedStudentIdToAdd='';selectedStudentNameToAdd=''"
+                             placeholder="Enter Student Name to Search"
+                             (typeaheadOnSelect)="selectedStudentIdToAdd = $event.item.id"
+                             [typeaheadItemTemplate]="availableStudentTypeaheadTemplate"
+                             typeaheadOptionField="name"
+                             class="form-control border-right-0">
+
+                      <button (click)="addStudentToBatch(batchId,selectedStudentIdToAdd)" [disabled]="!selectedStudentIdToAdd" class="btn-outline-secondary btn">Add</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item disabled border-light text-muted text-center" *ngIf="selectedStudents.length == 0">No Students are added</li>
+                <li *ngFor="let student of selectedStudents" class="list-group-item">
+                  {{student.name}}
+                  <div class="float-right">
+                    <button (click)="deleteStudentFromBatch(student)" type="button" class="btn btn-outline-danger btn-sm mr-2"><i class="fa fa-trash"></i></button>
+                  </div>
+                </li>
+              </ul>
+            </ng-template>
+            <ng-template #availableStudentTypeaheadTemplate let-model="item" let-index="index">
+                <p class="m-0 p-0 pt-2 pb-2">{{model.name}}</p>
+              </ng-template>
+            <!------------------------------------------- ***Manage Students Template*** ------------------------------------------->
+
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

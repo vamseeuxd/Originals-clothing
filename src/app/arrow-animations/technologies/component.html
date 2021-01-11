@@ -66,7 +66,7 @@
                      class="form-text">Provide valid {{moduleName}} Name with minimum 3 character and should be unique.</small>
             </div>
             <ng-container *ngIf="!isBackEndCallInProgress">
-              <div class="alert alert-danger" role="alert" *ngIf="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : ''))">Duplicate {{moduleName}} names are not allowed</div>
+                <div class="alert alert-danger" role="alert" *ngIf="isDuplicateName(items, itemName.value, (itemToEdit? newItem.name : ''))">Duplicate {{moduleName}} names are not allowed</div>
             </ng-container>
 
             <div class="text-right">

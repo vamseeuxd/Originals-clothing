@@ -13,7 +13,7 @@ import {TypeComponent} from './pages/type/type.component';
 import {WaistRiseComponent} from './pages/waist-rise/waist-rise.component';
 import {GenderComponent} from './pages/gender/gender.component';
 import {UsersComponent} from './pages/users/users.component';
-import {BatchesComponent} from './arrow-animations/batches/batches.component';
+import {BatchesComponent} from './arrow-animations/batches-old/batches.component';
 import {DashboardComponent} from './arrow-animations/dashboard/dashboard.component';
 
 const routes: Routes = [
