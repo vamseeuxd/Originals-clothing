@@ -1,10 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-originals-clothing fixed-top shadow-sm">
-  <a class="navbar-brand" href="#">originals-clothing</a>
-  <button class="navbar-toggler" [class.collapsed]="!isMenuOpened" (click)="isMenuOpened = !isMenuOpened" type="button">
+  <a class="navbar-brand" href="#">
+    Arrow Animations
+  </a>
+  <button *ngIf="false" class="navbar-toggler" [class.collapsed]="!isMenuOpened" (click)="isMenuOpened = !isMenuOpened" type="button">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" [class.collapse]="!isMenuOpened" [class.show]="isMenuOpened" id="navbarNav">
+  <div *ngIf="false" class="collapse navbar-collapse" [class.collapse]="!isMenuOpened" [class.show]="isMenuOpened" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="brand"><a class="nav-link">Brand</a></li>
       <li class="nav-item button-mode mr-2 text-truncate" (click)="isMenuOpened = false" routerLinkActive="active" routerLink="category"><a class="nav-link">Category</a></li>

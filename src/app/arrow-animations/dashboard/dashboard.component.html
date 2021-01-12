@@ -1,7 +1,7 @@
 <div class="container-fluid mt-2">
 
   <tabset>
-    <tab [active]="true" heading="Manage Student" class="p-3 border border-top-0">
+    <tab heading="Manage Student" class="p-3 border border-top-0">
       <app-students></app-students>
     </tab>
 
@@ -9,7 +9,7 @@
       <app-technologies></app-technologies>
     </tab>
 
-    <tab heading="Batches" class="p-3 border border-top-0">
+    <tab [active]="true" heading="Batches" class="p-3 border border-top-0">
       <app-batches></app-batches>
     </tab>
   </tabset>

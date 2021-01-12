@@ -1,6 +1,6 @@
 {
   "targets": {
-    "originals-clothing": {
+    "arrow-erp": {
       "hosting": {
         "oc-vizag": [
           "oc-vizag"
@@ -9,6 +9,6 @@
     }
   },
   "projects": {
-    "default": "originals-clothing"
+    "default": "arrow-erp"
   }
 }

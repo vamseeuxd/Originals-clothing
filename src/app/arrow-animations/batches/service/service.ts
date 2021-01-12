@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {BehaviorSubject, combineLatest, Observable, of, Subject} from 'rxjs'
+import {BehaviorSubject, combineLatest, forkJoin, Observable, of, Subject} from 'rxjs'
 import {AngularFirestore, AngularFirestoreCollection,} from '@angular/fire/firestore'
 import {BusyIndicatorService} from '../../../components/busy-indicator/busy-indicator.service';
 import firebase from 'firebase';
@@ -27,6 +27,7 @@ export class Service {
   private selectedStudents$: Observable<IStudent[]>;
 
   private activeUser: string;
+  sampleData: Observable<any>;
 
   constructor(
     private firestore: AngularFirestore,
@@ -38,6 +39,34 @@ export class Service {
     this.batchDataInit();
     this.technologyDataInit();
     this.studentsDataInit();
+    /*this.sampleData = this.getDataFromFirBase(
+      this.firestore, "batches",
+      "id",
+      "technologies",
+      "batches-technologies",
+      "batchId",
+      "technologyId",
+    );*/
+
+    /*this.sampleData = this.getDataFromFirBase(
+      this.firestore,
+      "technologies",
+      "id",
+      "batches",
+      "batches-technologies",
+      "technologyId",
+      "batchId",
+    );*/
+
+    this.sampleData = this.getDataFromFirBase(
+      this.firestore,
+      "students",
+      "id",
+      "batches",
+      "batches-students",
+      "studentId",
+      "batchId",
+    );
   }
 
   userDataInit() {
@@ -90,6 +119,73 @@ export class Service {
         }
       })
     ).pipe(shareReplay())
+  }
+
+
+  getDataFromFirBase(
+    fs: AngularFirestore,
+    sourceCollectionName: string,
+    sourceColumn: string,
+    destinationCollectionName: string,
+    relationCollection: string,
+    relationSourceColumn: string,
+    relationDestinationColumnName: string,
+  ) {
+    const relationMapping = {};
+    let destinationObjects = [];
+    let sourceObjects = [];
+    return fs
+      .collection(sourceCollectionName, ref => {
+        return ref.where("deleted", "==", false).orderBy("createdOn");
+      })
+      .valueChanges()
+      .pipe(
+        mergeMap(sourceCollection =>
+          combineLatest(
+            sourceCollection.map(source => {
+              return fs
+                .collection<any>(relationCollection, ref =>
+                  ref
+                    .where("deleted", "==", false)
+                    .where(relationSourceColumn, "==", source[sourceColumn])
+                    .orderBy("createdOn")
+                )
+                .valueChanges();
+            })
+          ).pipe(
+            map(relationShips => ({
+              sourceCollection: JSON.parse(JSON.stringify(sourceCollection)),
+              relationShips: JSON.parse(JSON.stringify(relationShips))
+            }))
+          )
+        ),
+        mergeMap(({sourceCollection, relationShips}) => {
+          sourceObjects = sourceCollection;
+          relationShips.forEach(relationShip => {
+            relationShip.forEach(relationShip2 => {
+              relationMapping[relationShip2[relationSourceColumn] + '___' + relationShip2[relationDestinationColumnName]] = destinationObjects.length;
+              console.log(`${destinationCollectionName}/${relationShip2[relationDestinationColumnName]}`);
+              destinationObjects.push(
+                fs.doc<any>(`${destinationCollectionName}/${relationShip2[relationDestinationColumnName]}`).valueChanges()
+              )
+            });
+          });
+          return combineLatest(destinationObjects)
+        }),
+        switchMap(value => {
+          sourceObjects.forEach(source => {
+            source[destinationCollectionName] = [];
+          });
+          for (let key in relationMapping) {
+            const sId = key.split("___")[0];
+            const source = sourceObjects.find(d => d[sourceColumn] === sId);
+            if (source) {
+              source[destinationCollectionName].push(value[relationMapping[key]]);
+            }
+          }
+          return of(sourceObjects);
+        })
+      );
   }
 
   studentsDataInit() {
